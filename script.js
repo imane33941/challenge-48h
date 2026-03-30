@@ -3,6 +3,37 @@ let lifeRight = 100;
 
 let currentQuestion = generateQuestion();
 
+function getConnectedPseudo() {
+  const rawUser = localStorage.getItem("currentUser");
+  if (!rawUser) {
+    return null;
+  }
+
+  try {
+    const parsedUser = JSON.parse(rawUser);
+    const pseudo = parsedUser?.profile?.pseudo;
+    if (pseudo && typeof pseudo === "string") {
+      return pseudo;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function updatePlayerName() {
+  const playerNameLeftEl = document.getElementById("playerNameLeft");
+  if (!playerNameLeftEl) {
+    return;
+  }
+
+  const pseudo = getConnectedPseudo();
+  if (pseudo) {
+    playerNameLeftEl.textContent = `🦆 ${pseudo}`;
+  }
+}
+
 // QUESTION
 function generateQuestion() {
   let a = Math.floor(Math.random() * 10);
@@ -133,6 +164,7 @@ function createCalculator(player, containerId) {
 }
 
 // INIT
+updatePlayerName();
 createCalculator("left", "calcLeft");
 createCalculator("right", "calcRight");
 
