@@ -64,7 +64,7 @@
             "id": 10,
             "question": "Qu'est-ce qui brille dans le ciel ?",
             "bonne_reponse": "Le Soleil",
-            "mauvaises_reponses": ["La Lune", "Un nuage"]
+            "mauvaises_reponses": ["Les oiseaux", "Un nuage"]
           },
           {
             "id": 11,
