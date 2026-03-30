@@ -31,7 +31,7 @@ export default function LobbyPage() {
   }, [])
 
   useEffect(() => {
-    if (session) navigate('/game')
+     if (session) navigate('/game')
   }, [session])
 
   const searchUser = async () => {

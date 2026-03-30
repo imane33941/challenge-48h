@@ -46,7 +46,7 @@ export default function LoginPage() {
         connectSocket()
 
         setStatus({ msg: 'Connexion réussie !', type: 'success' })
-        setTimeout(() => navigate('/lobby'), 800)
+        setTimeout(() => navigate('/menu'), 800)
 
       } else {
         if (!username || !nom || !prenom) {

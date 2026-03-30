@@ -16,6 +16,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   private userSockets = new Map<string, string>();
+  private duelRooms = new Map<string, { roomId: string; hostId: string; hostName: string }>();
 
   constructor(private gameService: GameService) {}
 
@@ -105,20 +106,96 @@ async handleAcceptInvitation(
     }
   }
 
-  @SubscribeMessage('submit_answer')
-  async handleSubmitAnswer(
-    @MessageBody() payload: { roomId: string; userId: string; score: number; finished: boolean },
+  @SubscribeMessage('duel_create_room')
+  handleDuelCreateRoom(
+    @MessageBody() payload: { code: string; hostId: string; hostName: string },
     @ConnectedSocket() client: Socket,
   ) {
-    await this.gameService.saveResult(payload.roomId, payload.userId, payload.score);
+    const roomId = `duel-room-${payload.code}`;
+    this.duelRooms.set(payload.code, {
+      roomId,
+      hostId: payload.hostId,
+      hostName: payload.hostName || 'Joueur',
+    });
+
+    client.join(roomId);
+    client.data.roomId = roomId;
+
+    client.emit('duel_room_created', { roomId, code: payload.code });
+  }
+
+  @SubscribeMessage('duel_join_room')
+  handleDuelJoinRoom(
+    @MessageBody() payload: { code: string; guestId: string; guestName: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const found = this.duelRooms.get(payload.code);
+    if (!found) {
+      client.emit('duel_join_error', { message: 'Code introuvable' });
+      return;
+    }
+
+    client.join(found.roomId);
+    client.data.roomId = found.roomId;
+
+    this.server.to(found.roomId).emit('duel_started', {
+      roomId: found.roomId,
+      hostId: found.hostId,
+      hostName: found.hostName,
+      guestId: payload.guestId,
+      guestName: payload.guestName || 'Joueur',
+    });
+
+    this.duelRooms.delete(payload.code);
+  }
+
+  @SubscribeMessage('submit_answer')
+  async handleSubmitAnswer(
+    @MessageBody() payload: {
+      roomId: string;
+      userId: string;
+      score: number;
+      finished: boolean;
+      damage?: number;
+      selfDamage?: number;
+      winnerId?: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const isDuelRoom = payload.roomId?.startsWith('duel-room-');
+    if (!isDuelRoom) {
+      await this.gameService.saveResult(payload.roomId, payload.userId, payload.score);
+    }
+
+    if (payload.damage) {
+      client.to(payload.roomId).emit('opponent_attacked', { damage: payload.damage });
+    }
+
+    if (payload.selfDamage) {
+      client.to(payload.roomId).emit('player_self_damaged', {
+        userId: payload.userId,
+        damage: payload.selfDamage,
+      });
+    }
+
     this.server.to(payload.roomId).emit('answer_submitted', {
       userId: payload.userId,
       score: payload.score,
     });
 
     if (payload.finished) {
-      await this.gameService.finishRoom(payload.roomId);
-      this.server.to(payload.roomId).emit('game_finished', { userId: payload.userId });
+      if (!isDuelRoom) {
+        await this.gameService.finishRoom(payload.roomId);
+      }
+      this.server.to(payload.roomId).emit('game_finished', {
+        userId: payload.winnerId ?? payload.userId,
+      });
     }
+  }
+
+  @SubscribeMessage('duel_rematch')
+  handleDuelRematch(@MessageBody() payload: { roomId: string }, @ConnectedSocket() client: Socket) {
+    if (!payload.roomId) return;
+    client.to(payload.roomId).emit('duel_rematch');
   }
 }
