@@ -10,7 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { GameService } from '../game.service';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({ cors: { origin: '*' } })
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -61,25 +61,34 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.emit('invitation_sent', { invitationId: invitation.id, code: room.code });
   }
 
-  @SubscribeMessage('accept_invitation')
-  async handleAcceptInvitation(
-    @MessageBody() payload: { invitationId: string; guestId: string },
-    @ConnectedSocket() client: Socket,
-  ) {
-    const invitation = await this.gameService.updateInvitation(payload.invitationId, 'accepted');
-    const room = await this.gameService.joinRoom(payload.guestId, invitation.game_rooms.code);
+@SubscribeMessage('accept_invitation')
+async handleAcceptInvitation(
+  @MessageBody() payload: { invitationId: string; guestId: string },
+  @ConnectedSocket() client: Socket,
+) {
+  const invitation = await this.gameService.updateInvitation(payload.invitationId, 'accepted');
+  const room = invitation.game_rooms;
 
-    client.join(room.id);
-    client.data.roomId = room.id;
+  const { data: updatedRoom, error } = await this.gameService['supabase'].getClient()
+    .from('game_rooms')
+    .update({ guest_id: payload.guestId, status: 'playing' })
+    .eq('id', room.id)
+    .select()
+    .single();
 
-    const hostSocketId = this.userSockets.get(invitation.host_id);
-    if (hostSocketId) {
-      const hostSocket = this.server.sockets.sockets.get(hostSocketId);
-      hostSocket?.join(room.id);
-    }
+  if (error) throw error;
 
-    this.server.to(room.id).emit('game_started', { room });
+  client.join(room.id);
+  client.data.roomId = room.id;
+
+  const hostSocketId = this.userSockets.get(invitation.host_id);
+  if (hostSocketId) {
+    const hostSocket = this.server.sockets.sockets.get(hostSocketId);
+    hostSocket?.join(room.id);
   }
+
+  this.server.to(room.id).emit('game_started', { room: updatedRoom });
+}
 
   @SubscribeMessage('decline_invitation')
   async handleDeclineInvitation(

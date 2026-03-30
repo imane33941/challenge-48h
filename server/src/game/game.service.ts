@@ -65,17 +65,17 @@ export class GameService {
     return { invitation: data, room };
   }
 
-  async updateInvitation(invitationId: string, status: 'accepted' | 'declined') {
-    const { data, error } = await this.supabase.getClient()
-      .from('invitations')
-      .update({ status })
-      .eq('id', invitationId)
-      .select('*, game_rooms(*)')
-      .single();
+async updateInvitation(invitationId: string, status: 'accepted' | 'declined') {
+  const { data, error } = await this.supabase.getClient()
+    .from('invitations')
+    .update({ status })
+    .eq('id', invitationId)
+    .select('*, game_rooms(*)')
+    .single();
 
-    if (error) throw error;
-    return data;
-  }
+  if (error) throw error;
+  return data;
+}
 
   async saveResult(roomId: string, userId: string, score: number) {
     const { data, error } = await this.supabase.getClient()
