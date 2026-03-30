@@ -2,54 +2,46 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Math Fight 🦆 vs 🐰</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Connexion</title>
+  <link rel="stylesheet" href="login.css?v=20260330-14">
 </head>
 
 <body>
 
-<div class="game">
+<div class="container">
+  <div class="box">
 
-  <!-- CANARD -->
-  <div class="player left">
-    <h2>🦆 Canard</h2>
-    <div class="question" id="questionLeft"></div>
-    <input type="text" id="displayLeft" readonly>
-    <div class="calculator" id="calcLeft"></div>
-  </div>
+    <h2 id="title">Connexion</h2>
 
-  <!-- CENTRE -->
-  <div class="center">
-    <h2>🦆 VS 🐰</h2>
+    <form id="form">
 
-    <div class="battle">
-      <div class="fighter">
-        <div class="character">🦆</div>
-        <div class="life" id="lifeLeft">100 ❤️</div>
+      <input type="text" placeholder="Pseudo ou Email" id="pseudo" required>
+      <input type="password" placeholder="Mot de passe" id="password" required>
+
+      <div id="extraFields" class="hidden">
+
+        <input type="email" placeholder="Email" id="signupEmail">
+        <input type="text" placeholder="Nom" id="nom">
+        <input type="text" placeholder="Prénom" id="prenom">
+
       </div>
 
-      <div class="vs">⚔️</div>
+      <button type="submit" class="main-btn">Valider</button>
 
-      <div class="fighter">
-        <div class="character">🐰</div>
-        <div class="life" id="lifeRight">100 ❤️</div>
-      </div>
-    </div>
+      <p id="status" class="status" aria-live="polite"></p>
 
-    <p>Bonne réponse = attaque 💥 | Mauvaise = tu prends un coup 😈</p>
+    </form>
+
+    <p id="switchText">
+      <span id="switchLabel">Pas de compte ?</span>
+      <button id="switchModeBtn" type="button" class="link-btn">S'inscrire</button>
+    </p>
+
   </div>
-
-  <!-- LAPIN -->
-  <div class="player right">
-    <h2>🐰 Lapin</h2>
-    <div class="question" id="questionRight"></div>
-    <input type="text" id="displayRight" readonly>
-    <div class="calculator" id="calcRight"></div>
-  </div>
-
 </div>
 
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="login.js?v=20260330-22"></script>
 
 </body>
 </html>

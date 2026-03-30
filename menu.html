@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu des mini-jeux</title>
+  <link rel="stylesheet" href="menu.css?v=20260330-03">
+</head>
+<body>
+  <div class="menu-page">
+    <header class="topbar">
+      <div class="brand">
+        <p class="kicker">Challenge 48h</p>
+        <h1>Menu des mini-jeux</h1>
+      </div>
+
+      <div class="account-area">
+        <p class="pseudo" id="headerPseudo">Joueur</p>
+        <button id="settingsBtn" class="gear-btn" type="button" aria-label="Paramètres du compte">⚙</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="cards" aria-label="Sélection des mini-jeux">
+        <article class="card">
+          <h2>Duel Multiplication</h2>
+          <p>Le mini-jeu existant: duel canard contre lapin avec calculatrice.</p>
+          <a class="play-btn" href="game.html">Jouer</a>
+        </article>
+
+        <article class="card">
+          <h2>Quiz Culture G</h2>
+          <p>Mini-jeu à réaliser par l'équipe quiz. Emplacement réservé.</p>
+          <span class="play-btn disabled" aria-disabled="true">Bientôt disponible</span>
+        </article>
+
+        <article class="card">
+          <h2>Calcul Express</h2>
+          <p>Mini-jeu à réaliser par l'équipe calcul. Emplacement réservé.</p>
+          <span class="play-btn disabled" aria-disabled="true">Bientôt disponible</span>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <aside id="settingsPanel" class="settings-panel hidden" aria-label="Paramètres du compte">
+    <div class="panel-header">
+      <h3>Mon compte</h3>
+      <button id="closeSettingsBtn" class="close-btn" type="button" aria-label="Fermer">✕</button>
+    </div>
+
+    <form id="accountForm" class="account-form">
+      <label for="accountPseudo">Pseudo</label>
+      <input id="accountPseudo" name="pseudo" type="text" required>
+
+      <label for="accountEmail">Email de contact</label>
+      <input id="accountEmail" name="signupEmail" type="email" required>
+
+      <label for="accountNom">Nom</label>
+      <input id="accountNom" name="nom" type="text" required>
+
+      <label for="accountPrenom">Prénom</label>
+      <input id="accountPrenom" name="prenom" type="text" required>
+
+      <div class="actions">
+        <button type="submit" class="save-btn">Enregistrer</button>
+        <button type="button" id="logoutBtn" class="logout-btn">Déconnexion</button>
+      </div>
+
+      <p id="accountStatus" class="status" aria-live="polite"></p>
+    </form>
+  </aside>
+
+  <script src="menu.js?v=20260330-03"></script>
+</body>
+</html>
