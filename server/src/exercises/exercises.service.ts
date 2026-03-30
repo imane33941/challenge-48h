@@ -17,13 +17,23 @@ export class ExercisesService {
     return data;
   }
 
-  async findAll(level?: number, subject?: string) {
+  async createMany(exercises: CreateExerciseDto[]) {
+    const { data, error } = await this.supabase.getClient()
+      .from('exercises')
+      .insert(exercises)
+      .select();
+
+    if (error) throw error;
+    return data;
+  }
+
+  async findAll(niveau?: number, serie?: number) {
     let query = this.supabase.getClient()
       .from('exercises')
       .select('*');
 
-    if (level) query = query.eq('level', level);
-    if (subject) query = query.eq('subject', subject);
+    if (niveau) query = query.eq('niveau', niveau);
+    if (serie) query = query.eq('serie', serie);
 
     const { data, error } = await query;
     if (error) throw error;

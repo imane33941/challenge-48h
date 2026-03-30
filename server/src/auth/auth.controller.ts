@@ -28,8 +28,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Req() req: any) {
+  @Get('user')
+  getUser(@Req() req: any) {
     return req.user;
   }
 }

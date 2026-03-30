@@ -13,9 +13,17 @@ export class ExercisesController {
     return this.exercisesService.create(dto);
   }
 
+  @Post('bulk')
+  createMany(@Body() exercises: CreateExerciseDto[]) {
+    return this.exercisesService.createMany(exercises);
+  }
+
   @Get()
-  findAll(@Query('level') level?: number, @Query('subject') subject?: string) {
-    return this.exercisesService.findAll(level, subject);
+  findAll(
+    @Query('niveau') niveau?: number,
+    @Query('serie') serie?: number,
+  ) {
+    return this.exercisesService.findAll(niveau, serie);
   }
 
   @Get(':id')

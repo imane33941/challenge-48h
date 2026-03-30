@@ -1,20 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { SupabaseService } from '../supabase/supabase.service';
-import { CreateProfileDto } from './dto/create-profile.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
-export class ProfilesService {
+export class UsersService {
   constructor(private supabase: SupabaseService) {}
 
-  async create(userId: string, dto: CreateProfileDto) {
+  async create(userId: string, dto: CreateUserDto) {
     const { data, error } = await this.supabase.getClient()
-      .from('profiles')
+      .from('users')
       .insert({
         id: userId,
         role: 'child',
         username: dto.username,
+        first_name: dto.firstName,
+        last_name: dto.lastName,
         age: dto.age,
-        level: dto.level,
+        school_level_id: dto.school_level_id,
       })
       .select()
       .single();
@@ -25,7 +27,7 @@ export class ProfilesService {
 
   async findOne(userId: string) {
     const { data, error } = await this.supabase.getClient()
-      .from('profiles')
+      .from('users')
       .select('*')
       .eq('id', userId)
       .single();
@@ -34,9 +36,9 @@ export class ProfilesService {
     return data;
   }
 
-  async update(userId: string, dto: Partial<CreateProfileDto>) {
+  async update(userId: string, dto: Partial<CreateUserDto>) {
     const { data, error } = await this.supabase.getClient()
-      .from('profiles')
+      .from('users')
       .update(dto)
       .eq('id', userId)
       .select()

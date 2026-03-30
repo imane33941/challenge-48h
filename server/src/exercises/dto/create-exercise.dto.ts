@@ -1,9 +1,8 @@
 export class CreateExerciseDto {
   title: string;
-  question: string;
-  type: 'qcm' | 'text' | 'drag_drop';
-  subject: 'math' | 'french' | 'logic';
+  series: number;
   level: number;
-  options?: any[];
-  answer: string;
+  question: string;
+  correct_answer: string;
+  wrong_answers: string[];
 }
