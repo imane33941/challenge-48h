@@ -246,6 +246,64 @@ body {
   margin-bottom: 0;
 }
 
+.join-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 26, 36, 0.42);
+  display: grid;
+  place-items: center;
+  z-index: 60;
+  padding: 16px;
+}
+
+.join-modal.hidden {
+  display: none;
+}
+
+.join-modal-card {
+  width: min(430px, 94vw);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.97), rgba(240, 249, 255, 0.94));
+  border: 1px solid rgba(31, 40, 51, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 20px 45px rgba(12, 36, 52, 0.26);
+  padding: 20px;
+}
+
+.join-modal-card h2 {
+  margin: 0;
+  font-family: "Rajdhani", sans-serif;
+}
+
+.join-subtitle {
+  margin: 6px 0 14px;
+  color: #4a5f6e;
+}
+
+.join-code-form input {
+  width: 100%;
+  border: 1px solid #bdd0dd;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.join-error {
+  min-height: 20px;
+  margin: 8px 0 0;
+  color: #b3332b;
+  font-size: 0.95rem;
+}
+
+.join-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 @media (max-width: 920px) {
   .topbar {
     flex-direction: column;

@@ -10,6 +10,11 @@ const leaveRoomBtnEl = document.getElementById("leaveRoomBtn");
 const activeRoomCodeEl = document.getElementById("activeRoomCode");
 const friendStatusEl = document.getElementById("friendStatus");
 const multiplayerStatusEl = document.getElementById("multiplayerStatus");
+const joinCodeModalEl = document.getElementById("joinCodeModal");
+const joinCodeFormEl = document.getElementById("joinCodeForm");
+const joinCodeInputEl = document.getElementById("joinCodeInput");
+const joinCodeErrorEl = document.getElementById("joinCodeError");
+const cancelJoinBtnEl = document.getElementById("cancelJoinBtn");
 
 const myRoleTitleEl = document.getElementById("myRoleTitle");
 const questionSelfEl = document.getElementById("questionSelf");
@@ -84,6 +89,33 @@ function generateQuestion() {
 
 function setStatus(message) {
   multiplayerStatusEl.textContent = message;
+}
+
+function setJoinCodeError(message = "") {
+  if (!joinCodeErrorEl) {
+    return;
+  }
+
+  joinCodeErrorEl.textContent = message;
+}
+
+function openJoinCodeModal() {
+  if (!joinCodeModalEl || !joinCodeInputEl) {
+    return;
+  }
+
+  joinCodeModalEl.classList.remove("hidden");
+  setJoinCodeError("");
+  joinCodeInputEl.value = "";
+  joinCodeInputEl.focus();
+}
+
+function closeJoinCodeModal() {
+  if (!joinCodeModalEl) {
+    return;
+  }
+
+  joinCodeModalEl.classList.add("hidden");
 }
 
 function setFriendStatus(online) {
@@ -509,18 +541,30 @@ function bindEvents() {
   });
 
   joinRoomBtnEl.addEventListener("click", async () => {
-    const rawCode = window.prompt("Entre le code reçu (6 caractères)", "");
-    if (rawCode === null) {
-      return;
-    }
+    openJoinCodeModal();
+  });
 
-    const code = normalizeCode(rawCode);
+  joinCodeFormEl.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const code = normalizeCode(joinCodeInputEl.value);
     if (code.length !== 6) {
-      setStatus("Code invalide. Le code doit contenir 6 caractères.");
+      setJoinCodeError("Code invalide. Le code doit contenir 6 caractères.");
       return;
     }
 
+    closeJoinCodeModal();
     await joinRoom(code, "right", false);
+  });
+
+  cancelJoinBtnEl.addEventListener("click", () => {
+    closeJoinCodeModal();
+  });
+
+  joinCodeModalEl.addEventListener("click", (event) => {
+    if (event.target === joinCodeModalEl) {
+      closeJoinCodeModal();
+    }
   });
 
   leaveRoomBtnEl.addEventListener("click", async () => {

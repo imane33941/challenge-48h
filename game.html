@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Math Fight 🦆 vs 🐰</title>
-  <link rel="stylesheet" href="style.css?v=20260330-05">
+  <link rel="stylesheet" href="style.css?v=20260330-06">
 </head>
 
 <body>
@@ -82,8 +82,25 @@
     </main>
   </div>
 
+  <div id="joinCodeModal" class="join-modal hidden" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle">
+    <div class="join-modal-card">
+      <h2 id="joinModalTitle">Rejoindre une partie</h2>
+      <p class="join-subtitle">Entre le code reçu de ton ami.</p>
+
+      <form id="joinCodeForm" class="join-code-form">
+        <input id="joinCodeInput" type="text" maxlength="6" placeholder="Ex: A2F9KD" autocomplete="off">
+        <p id="joinCodeError" class="join-error" aria-live="polite"></p>
+
+        <div class="join-actions">
+          <button id="cancelJoinBtn" type="button" class="small-btn muted">Annuler</button>
+          <button type="submit" class="small-btn">Rejoindre</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js?v=20260330-07"></script>
+<script src="script.js?v=20260330-08"></script>
 
 </body>
 </html>
