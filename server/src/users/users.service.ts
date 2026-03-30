@@ -47,4 +47,15 @@ export class UsersService {
     if (error) throw error;
     return data;
   }
+
+  async findByUsername(username: string) {
+    const { data, error } = await this.supabase.getClient()
+      .from('users')
+      .select('id, username')
+      .eq('username', username)
+      .maybeSingle() 
+
+    if (error) throw error
+    return data 
+  }
 }
