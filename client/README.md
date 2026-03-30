@@ -1,16 +1,35 @@
-# React + Vite
+# challenge-48h
+# Comment appeler l'API
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. S'assurer que l'API tourne
+```
+pip install fastapi uvicorn
+```
+```bash
+uvicorn api:app --reload
+```
 
-Currently, two official plugins are available:
+## 2. Appeler une question
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```javascript
+let score = 0; // nombre de bonnes réponses du joueur
 
-## React Compiler
+const res = await fetch(`http://localhost:8000/question/college?score=${score}`);
+const question = await res.json();
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Remplacer `college` par `primaire` ou `lycee` selon le niveau voulu.
 
-## Expanding the ESLint configuration
+## 3. Ce que vous recevez
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```json
+{
+  "question": "Quelle est la capitale de l'Allemagne ?",
+  "reponses": ["Berlin", "Munich", "Hambourg", "Francfort"],
+  "bonne_reponse": 1
+}
+```
+
+- `reponses` → les 4 choix à afficher
+- `bonne_reponse` → index de la bonne réponse (0 à 3)
+- Incrémentez `score` à chaque bonne réponse, la difficulté monte automatiquement

@@ -1,0 +1,295 @@
+{
+  "quiz": {
+    "titre": "Culture Générale - Niveau Collège",
+    "series": [
+      {
+        "serie": 1,
+        "niveau": 1,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quelle est la capitale de l'Allemagne ?",
+            "bonne_reponse": "Berlin",
+            "mauvaises_reponses": ["Munich", "Hambourg"]
+          },
+          {
+            "id": 2,
+            "question": "Quel est le plus grand pays du monde ?",
+            "bonne_reponse": "La Russie",
+            "mauvaises_reponses": ["Le Canada", "La Chine"]
+          },
+          {
+            "id": 3,
+            "question": "Combien y a-t-il de continents sur Terre ?",
+            "bonne_reponse": "7",
+            "mauvaises_reponses": ["5", "6"]
+          },
+          {
+            "id": 4,
+            "question": "Quel océan se trouve entre la France et les États-Unis ?",
+            "bonne_reponse": "L'océan Atlantique",
+            "mauvaises_reponses": ["L'océan Pacifique", "L'océan Indien"]
+          },
+          {
+            "id": 5,
+            "question": "Quel est le symbole chimique de l'eau ?",
+            "bonne_reponse": "H2O",
+            "mauvaises_reponses": ["CO2", "O2"]
+          },
+          {
+            "id": 6,
+            "question": "Combien de planètes y a-t-il dans notre système solaire ?",
+            "bonne_reponse": "8",
+            "mauvaises_reponses": ["7", "9"]
+          },
+          {
+            "id": 7,
+            "question": "Qui a peint la Joconde ?",
+            "bonne_reponse": "Léonard de Vinci",
+            "mauvaises_reponses": ["Michel-Ange", "Raphaël"]
+          },
+          {
+            "id": 8,
+            "question": "En quelle année a eu lieu la Révolution française ?",
+            "bonne_reponse": "1789",
+            "mauvaises_reponses": ["1850", "1700"]
+          },
+          {
+            "id": 9,
+            "question": "Quel est le plus long fleuve de France ?",
+            "bonne_reponse": "La Loire",
+            "mauvaises_reponses": ["La Seine", "Le Rhône"]
+          },
+          {
+            "id": 10,
+            "question": "Combien de joueurs y a-t-il dans une équipe de football ?",
+            "bonne_reponse": "11",
+            "mauvaises_reponses": ["9", "13"]
+          },
+          {
+            "id": 11,
+            "question": "Quel animal est le plus rapide sur terre ?",
+            "bonne_reponse": "Le guépard",
+            "mauvaises_reponses": ["Le lion", "L'autruche"]
+          },
+          {
+            "id": 12,
+            "question": "Quelle est la monnaie utilisée en France ?",
+            "bonne_reponse": "L'euro",
+            "mauvaises_reponses": ["Le franc", "La livre"]
+          },
+          {
+            "id": 13,
+            "question": "Quel gaz les plantes produisent-elles grâce au soleil ?",
+            "bonne_reponse": "L'oxygène",
+            "mauvaises_reponses": ["Le dioxyde de carbone", "L'azote"]
+          },
+          {
+            "id": 14,
+            "question": "Quel est le nom du chef de l'État en France ?",
+            "bonne_reponse": "Le Président de la République",
+            "mauvaises_reponses": ["Le Premier ministre", "Le maire"]
+          },
+          {
+            "id": 15,
+            "question": "Sur quel continent se trouve le Brésil ?",
+            "bonne_reponse": "En Amérique du Sud",
+            "mauvaises_reponses": ["En Afrique", "En Asie"]
+          }
+        ]
+      },
+      {
+        "serie": 2,
+        "niveau": 2,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quelle est la capitale du Japon ?",
+            "bonne_reponse": "Tokyo",
+            "mauvaises_reponses": ["Pékin", "Séoul"]
+          },
+          {
+            "id": 2,
+            "question": "Quel scientifique est connu pour avoir découvert la gravité avec une pomme ?",
+            "bonne_reponse": "Isaac Newton",
+            "mauvaises_reponses": ["Albert Einstein", "Galilée"]
+          },
+          {
+            "id": 3,
+            "question": "Quelle est la langue la plus parlée dans le monde ?",
+            "bonne_reponse": "Le mandarin",
+            "mauvaises_reponses": ["L'anglais", "L'espagnol"]
+          },
+          {
+            "id": 4,
+            "question": "En quelle année Christophe Colomb a-t-il découvert l'Amérique ?",
+            "bonne_reponse": "1492",
+            "mauvaises_reponses": ["1776", "1312"]
+          },
+          {
+            "id": 5,
+            "question": "Quelle planète possède des anneaux visibles ?",
+            "bonne_reponse": "Saturne",
+            "mauvaises_reponses": ["Jupiter", "Uranus"]
+          },
+          {
+            "id": 6,
+            "question": "Quel est le plus petit pays du monde ?",
+            "bonne_reponse": "Le Vatican",
+            "mauvaises_reponses": ["Monaco", "Saint-Marin"]
+          },
+          {
+            "id": 7,
+            "question": "Quel est l'organe principal de la pensée dans notre corps ?",
+            "bonne_reponse": "Le cerveau",
+            "mauvaises_reponses": ["Le cœur", "Les poumons"]
+          },
+          {
+            "id": 8,
+            "question": "Quel auteur a écrit 'Les Misérables' ?",
+            "bonne_reponse": "Victor Hugo",
+            "mauvaises_reponses": ["Émile Zola", "Gustave Flaubert"]
+          },
+          {
+            "id": 9,
+            "question": "Quelle est la capitale de l'Australie ?",
+            "bonne_reponse": "Canberra",
+            "mauvaises_reponses": ["Sydney", "Melbourne"]
+          },
+          {
+            "id": 10,
+            "question": "Quel est le nom du processus par lequel les plantes fabriquent leur nourriture ?",
+            "bonne_reponse": "La photosynthèse",
+            "mauvaises_reponses": ["La respiration", "La germination"]
+          },
+          {
+            "id": 11,
+            "question": "En quelle année la Seconde Guerre mondiale s'est-elle terminée ?",
+            "bonne_reponse": "1945",
+            "mauvaises_reponses": ["1918", "1939"]
+          },
+          {
+            "id": 12,
+            "question": "Quel tunnel relie la France à l'Angleterre sous la mer ?",
+            "bonne_reponse": "Le tunnel sous la Manche",
+            "mauvaises_reponses": ["Le tunnel du Mont-Blanc", "Le tunnel de Gibraltar"]
+          },
+          {
+            "id": 13,
+            "question": "Quel sport pratique Rafael Nadal ?",
+            "bonne_reponse": "Le tennis",
+            "mauvaises_reponses": ["Le football", "Le golf"]
+          },
+          {
+            "id": 14,
+            "question": "Quelle est la capitale du Canada ?",
+            "bonne_reponse": "Ottawa",
+            "mauvaises_reponses": ["Toronto", "Montréal"]
+          },
+          {
+            "id": 15,
+            "question": "Quel est l'organe qui filtre le sang dans notre corps ?",
+            "bonne_reponse": "Les reins",
+            "mauvaises_reponses": ["Le foie", "La rate"]
+          }
+        ]
+      },
+      {
+        "serie": 3,
+        "niveau": 3,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quel peintre espagnol a fondé le mouvement cubiste ?",
+            "bonne_reponse": "Pablo Picasso",
+            "mauvaises_reponses": ["Salvador Dali", "Joan Miró"]
+          },
+          {
+            "id": 2,
+            "question": "Quel gaz compose la majeure partie de l'air que l'on respire ?",
+            "bonne_reponse": "L'azote",
+            "mauvaises_reponses": ["L'oxygène", "Le dioxyde de carbone"]
+          },
+          {
+            "id": 3,
+            "question": "Quel est le nom du traité qui a mis fin à la Première Guerre mondiale ?",
+            "bonne_reponse": "Le traité de Versailles",
+            "mauvaises_reponses": ["Le traité de Paris", "Le traité de Rome"]
+          },
+          {
+            "id": 4,
+            "question": "Quelle est la capitale de l'Italie ?",
+            "bonne_reponse": "Rome",
+            "mauvaises_reponses": ["Milan", "Naples"]
+          },
+          {
+            "id": 5,
+            "question": "Quel est le nom du détective fictif le plus célèbre avec une pipe et une loupe ?",
+            "bonne_reponse": "Sherlock Holmes",
+            "mauvaises_reponses": ["Hercule Poirot", "Arsène Lupin"]
+          },
+          {
+            "id": 6,
+            "question": "Quel est le nom de la force qui attire les objets vers le sol ?",
+            "bonne_reponse": "La gravité",
+            "mauvaises_reponses": ["Le magnétisme", "L'inertie"]
+          },
+          {
+            "id": 7,
+            "question": "Quelle est la capitale de la Chine ?",
+            "bonne_reponse": "Pékin",
+            "mauvaises_reponses": ["Shanghai", "Hong Kong"]
+          },
+          {
+            "id": 8,
+            "question": "Quelle civilisation a construit le Colisée ?",
+            "bonne_reponse": "Les Romains",
+            "mauvaises_reponses": ["Les Grecs", "Les Égyptiens"]
+          },
+          {
+            "id": 9,
+            "question": "Quel est le symbole chimique du fer ?",
+            "bonne_reponse": "Fe",
+            "mauvaises_reponses": ["Fr", "Fi"]
+          },
+          {
+            "id": 10,
+            "question": "Quelle est la religion la plus pratiquée dans le monde ?",
+            "bonne_reponse": "Le christianisme",
+            "mauvaises_reponses": ["L'islam", "L'hindouisme"]
+          },
+          {
+            "id": 11,
+            "question": "Quel pays a envoyé le premier homme dans l'espace ?",
+            "bonne_reponse": "L'URSS (Russie)",
+            "mauvaises_reponses": ["Les États-Unis", "La Chine"]
+          },
+          {
+            "id": 12,
+            "question": "Quel savant a proposé que les espèces évoluent avec le temps ?",
+            "bonne_reponse": "Charles Darwin",
+            "mauvaises_reponses": ["Albert Einstein", "Isaac Newton"]
+          },
+          {
+            "id": 13,
+            "question": "Dans quel pays se trouve la ville de Berlin ?",
+            "bonne_reponse": "En Allemagne",
+            "mauvaises_reponses": ["En Autriche", "En Suisse"]
+          },
+          {
+            "id": 14,
+            "question": "Quel auteur a écrit 'Le Tour du monde en 80 jours' ?",
+            "bonne_reponse": "Jules Verne",
+            "mauvaises_reponses": ["Alexandre Dumas", "Honoré de Balzac"]
+          },
+          {
+            "id": 15,
+            "question": "Quel est le nom du phénomène qui désigne le réchauffement climatique de la Terre ?",
+            "bonne_reponse": "L'effet de serre",
+            "mauvaises_reponses": ["Le trou dans la couche d'ozone", "El Niño"]
+          }
+        ]
+      }
+    ]
+  }
+}
