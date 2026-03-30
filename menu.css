@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Manrope:wght@400;600;700&display=swap");
+
+:root {
+  --bg-1: #e8f5ff;
+  --bg-2: #fff8e7;
+  --ink: #1f2933;
+  --brand: #0c7db1;
+  --accent: #f57f17;
+  --card: rgba(255, 255, 255, 0.8);
+  --shadow: 0 20px 40px rgba(20, 64, 88, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(12, 125, 177, 0.25), transparent 35%),
+    radial-gradient(circle at 85% 75%, rgba(245, 127, 23, 0.25), transparent 35%),
+    linear-gradient(130deg, var(--bg-1), var(--bg-2));
+  min-height: 100vh;
+}
+
+.menu-page {
+  width: min(1120px, 94vw);
+  margin: 0 auto;
+  padding: 24px 0 40px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.kicker {
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: #32566f;
+}
+
+h1 {
+  margin: 0;
+  font-family: "Chakra Petch", sans-serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+.account-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(12, 125, 177, 0.2);
+  border-radius: 999px;
+  padding: 8px 12px 8px 16px;
+}
+
+.pseudo {
+  margin: 0;
+  font-weight: 700;
+}
+
+.gear-btn {
+  border: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #173042;
+  color: white;
+  font-size: 1rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(6px);
+}
+
+.card h2 {
+  margin-top: 0;
+  font-family: "Chakra Petch", sans-serif;
+}
+
+.card p {
+  min-height: 54px;
+}
+
+.play-btn {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--brand), #0f5f83);
+  padding: 10px 16px;
+  border-radius: 12px;
+}
+
+.play-btn.disabled {
+  background: linear-gradient(135deg, #9aa6ad, #7b8b93);
+  cursor: not-allowed;
+}
+
+.settings-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(420px, 100%);
+  height: 100vh;
+  background: #f8fdff;
+  box-shadow: -16px 0 40px rgba(18, 52, 69, 0.2);
+  padding: 20px;
+  z-index: 40;
+}
+
+.hidden {
+  display: none;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  border: 0;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.account-form input {
+  border: 1px solid #b8c8d2;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.save-btn,
+.logout-btn {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #0c7db1;
+  color: #fff;
+}
+
+.logout-btn {
+  background: #ebeef1;
+  color: #2d3a43;
+}
+
+.status {
+  min-height: 22px;
+  font-size: 0.95rem;
+  margin: 4px 0 0;
+}
+
+.status.success {
+  color: #1f7a43;
+}
+
+.status.error {
+  color: #b3332b;
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .card p {
+    min-height: 0;
+  }
+}

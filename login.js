@@ -27,6 +27,7 @@ const signupEmailEl = document.getElementById("signupEmail");
 const nomEl = document.getElementById("nom");
 const prenomEl = document.getElementById("prenom");
 const passwordEl = document.getElementById("password");
+const PSEUDO_EMAIL_MAP_KEY = "pseudoEmailMap";
 
 if (!formEl || !extraFieldsEl || !titleEl) {
   console.warn("DOM elements not found, login.js initialization delayed");
@@ -35,6 +36,11 @@ if (!formEl || !extraFieldsEl || !titleEl) {
 // Initialiser: cacher les champs au démarrage (mode connexion par défaut)
 if (extraFieldsEl && !extraFieldsEl.classList.contains("hidden")) {
   extraFieldsEl.classList.add("hidden");
+}
+
+if (pseudoEl) {
+  pseudoEl.placeholder = "Pseudo ou Email";
+  pseudoEl.type = "text";
 }
 
 function setStatus(message, type = "") {
@@ -54,7 +60,11 @@ function getReadableAuthError(error) {
   }
 
   if (rawMessage.includes("invalid login credentials")) {
-    return "Pseudo ou mot de passe incorrect.";
+    return "Pseudo/email ou mot de passe incorrect.";
+  }
+
+  if (rawMessage.includes("email address") && rawMessage.includes("invalid")) {
+    return "Adresse email invalide. Vérifie le format puis réessaie.";
   }
 
   return error?.message || "Une erreur est survenue.";
@@ -69,6 +79,11 @@ function toggleMode() {
 
   if (titleEl) {
     titleEl.textContent = isLogin ? "Connexion" : "Inscription";
+  }
+
+  if (pseudoEl) {
+    pseudoEl.placeholder = isLogin ? "Pseudo ou Email" : "Pseudo";
+    pseudoEl.type = "text";
   }
 
   if (switchLabelEl) {
@@ -124,13 +139,49 @@ function normalizePseudo(pseudo) {
   return pseudo.trim().toLowerCase().replace(/\s+/g, "-");
 }
 
-function pseudoToEmail(pseudo) {
-  const normalizedPseudo = normalizePseudo(pseudo);
-  if (!/^[a-z0-9._-]{3,30}$/.test(normalizedPseudo)) {
-    throw new Error("Pseudo invalide. Utilise 3-30 caracteres: lettres, chiffres, ., _, -");
+function isEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
+function readPseudoEmailMap() {
+  const raw = localStorage.getItem(PSEUDO_EMAIL_MAP_KEY);
+  if (!raw) {
+    return {};
   }
 
-  return `${normalizedPseudo}@pseudo.local`;
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") {
+      return parsed;
+    }
+  } catch {
+    return {};
+  }
+
+  return {};
+}
+
+function savePseudoEmail(normalizedPseudo, email) {
+  const map = readPseudoEmailMap();
+  map[normalizedPseudo] = email;
+  localStorage.setItem(PSEUDO_EMAIL_MAP_KEY, JSON.stringify(map));
+}
+
+function resolveEmailFromIdentifier(identifier) {
+  const trimmed = identifier.trim();
+  if (isEmail(trimmed)) {
+    return trimmed;
+  }
+
+  const normalizedPseudo = normalizePseudo(trimmed);
+  const map = readPseudoEmailMap();
+  const mappedEmail = map[normalizedPseudo];
+
+  if (!mappedEmail) {
+    throw new Error("Pseudo non reconnu sur cet appareil. Essaie avec ton email ou reconnecte-toi une première fois avec email.");
+  }
+
+  return mappedEmail;
 }
 
 async function signUpUser(pseudo, password, signupEmail, nom, prenom) {
@@ -138,14 +189,17 @@ async function signUpUser(pseudo, password, signupEmail, nom, prenom) {
     throw new Error("Supabase n'est pas configuré.");
   }
 
-  const email = pseudoToEmail(pseudo);
+  const normalizedPseudo = normalizePseudo(pseudo);
+  if (!/^[a-z0-9._-]{3,30}$/.test(normalizedPseudo)) {
+    throw new Error("Pseudo invalide. Utilise 3-30 caracteres: lettres, chiffres, ., _, -");
+  }
 
   const { data, error } = await supabaseClient.auth.signUp({
-    email,
+    email: signupEmail,
     password,
     options: {
       data: {
-        pseudo: normalizePseudo(pseudo),
+        pseudo: normalizedPseudo,
         signupEmail,
         nom,
         prenom,
@@ -157,15 +211,17 @@ async function signUpUser(pseudo, password, signupEmail, nom, prenom) {
     throw error;
   }
 
+  savePseudoEmail(normalizedPseudo, signupEmail);
+
   return data.user;
 }
 
-async function signInUser(pseudo, password) {
+async function signInUser(identifier, password) {
   if (!supabaseClient) {
     throw new Error("Supabase n'est pas configuré.");
   }
 
-  const email = pseudoToEmail(pseudo);
+  const email = resolveEmailFromIdentifier(identifier);
 
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
@@ -188,12 +244,12 @@ if (formEl && formEl.dataset.boundSubmit !== "1") {
   formEl.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const pseudo = pseudoEl.value.trim();
+  const identifier = pseudoEl.value.trim();
   const password = passwordEl.value;
   const isSignupMode = !!extraFieldsEl && !extraFieldsEl.classList.contains("hidden");
 
-  if (!pseudo || !password) {
-    setStatus("Pseudo et mot de passe sont obligatoires.", "error");
+  if (!identifier || !password) {
+    setStatus("Pseudo/email et mot de passe sont obligatoires.", "error");
     return;
   }
 
@@ -201,23 +257,24 @@ if (formEl && formEl.dataset.boundSubmit !== "1") {
 
   try {
     if (!isSignupMode) {
-      const user = await signInUser(pseudo, password);
+      const user = await signInUser(identifier, password);
       const profile = await fetchUserProfile(user.id);
 
       localStorage.setItem(
         "currentUser",
         JSON.stringify({
           id: user.id,
-          pseudo: profile.pseudo || normalizePseudo(pseudo),
+          pseudo: profile.pseudo || "",
           profile,
         })
       );
 
       setStatus("Connexion réussie. Redirection...", "success");
-      window.location.href = "game.html";
+      window.location.href = "menu.html";
       return;
     }
 
+    const pseudo = identifier;
     const signupEmail = signupEmailEl.value.trim();
     const nom = nomEl.value.trim();
     const prenom = prenomEl.value.trim();

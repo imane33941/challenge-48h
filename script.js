@@ -1,7 +1,45 @@
-let lifeLeft = 100;
-let lifeRight = 100;
+const SUPABASE_URL = "https://jsiwbxlvrmpwovfcntau.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpzaXdieGx2cm1wd292ZmNudGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MjkzNTMsImV4cCI6MjA5MDQwNTM1M30.ly1hiDO25kaSd5S8sIpZ-fC-n3mM_v9bCHPXqOUeuU8";
+const ROOM_PREFIX = "duel-room-";
 
-let currentQuestion = generateQuestion();
+const connectedPseudoEl = document.getElementById("connectedPseudo");
+const createRoomBtnEl = document.getElementById("createRoomBtn");
+const copyCodeBtnEl = document.getElementById("copyCodeBtn");
+const joinRoomBtnEl = document.getElementById("joinRoomBtn");
+const leaveRoomBtnEl = document.getElementById("leaveRoomBtn");
+const activeRoomCodeEl = document.getElementById("activeRoomCode");
+const friendStatusEl = document.getElementById("friendStatus");
+const multiplayerStatusEl = document.getElementById("multiplayerStatus");
+
+const myRoleTitleEl = document.getElementById("myRoleTitle");
+const questionSelfEl = document.getElementById("questionSelf");
+const displaySelfEl = document.getElementById("displaySelf");
+const calcSelfEl = document.getElementById("calcSelf");
+const nameLeftEl = document.getElementById("nameLeft");
+const nameRightEl = document.getElementById("nameRight");
+const lifeLeftEl = document.getElementById("lifeLeft");
+const lifeRightEl = document.getElementById("lifeRight");
+
+let supabaseClient = null;
+let roomChannel = null;
+let isHost = false;
+let mySide = null;
+let roomCode = null;
+let connectedPseudo = "joueur";
+let roomExpiryTimer = null;
+
+const ROOM_INACTIVITY_MS = 120000;
+
+let gameState = {
+  version: 1,
+  lifeLeft: 100,
+  lifeRight: 100,
+  question: generateQuestion(),
+  players: {
+    left: "Canard",
+    right: "Lapin",
+  },
+};
 
 function getConnectedPseudo() {
   const rawUser = localStorage.getItem("currentUser");
@@ -11,162 +49,500 @@ function getConnectedPseudo() {
 
   try {
     const parsedUser = JSON.parse(rawUser);
-    const pseudo = parsedUser?.profile?.pseudo;
-    if (pseudo && typeof pseudo === "string") {
-      return pseudo;
-    }
+    return parsedUser?.profile?.pseudo || parsedUser?.pseudo || null;
   } catch {
     return null;
   }
-
-  return null;
 }
 
-function updatePlayerName() {
-  const playerNameLeftEl = document.getElementById("playerNameLeft");
-  if (!playerNameLeftEl) {
-    return;
-  }
-
-  const pseudo = getConnectedPseudo();
-  if (pseudo) {
-    playerNameLeftEl.textContent = `🦆 ${pseudo}`;
-  }
+function normalizeCode(value) {
+  return value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
 }
 
-// QUESTION
+function createCode() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const bytes = new Uint8Array(6);
+  window.crypto.getRandomValues(bytes);
+
+  let code = "";
+  for (let i = 0; i < bytes.length; i += 1) {
+    code += chars[bytes[i] % chars.length];
+  }
+
+  return code;
+}
+
 function generateQuestion() {
-  let a = Math.floor(Math.random() * 10);
-  let b = Math.floor(Math.random() * 10);
-
+  const a = Math.floor(Math.random() * 10);
+  const b = Math.floor(Math.random() * 10);
   return {
+    id: `${Date.now()}-${Math.floor(Math.random() * 10000)}`,
     text: `${a} × ${b}`,
-    answer: a * b
+    answer: a * b,
   };
 }
 
-// AFFICHER QUESTION
-function updateQuestion() {
-  document.getElementById("questionLeft").textContent =
-    currentQuestion.text + " = ?";
-
-  document.getElementById("questionRight").textContent =
-    currentQuestion.text + " = ?";
+function setStatus(message) {
+  multiplayerStatusEl.textContent = message;
 }
 
-// MAJ VIE
-function updateLife() {
-  document.getElementById("lifeLeft").textContent = lifeLeft + " ❤️";
-  document.getElementById("lifeRight").textContent = lifeRight + " ❤️";
-}
-
-// CALCULATRICE
-function press(player, value) {
-  let display = document.getElementById(
-    player === "left" ? "displayLeft" : "displayRight"
-  );
-
-  display.value += value;
-}
-
-function clearDisplay(player) {
-  let display = document.getElementById(
-    player === "left" ? "displayLeft" : "displayRight"
-  );
-
-  display.value = "";
-}
-
-// COMBAT
-function submitAnswer(player) {
-  let display = document.getElementById(
-    player === "left" ? "displayLeft" : "displayRight"
-  );
-
-  let value = parseInt(display.value);
-
-  if (value === currentQuestion.answer) {
-    // BONNE RÉPONSE → attaque
-    if (player === "left") {
-      lifeRight -= 10;
-    } else {
-      lifeLeft -= 10;
-    }
-  } else {
-    // MAUVAISE → tu prends
-    if (player === "left") {
-      lifeLeft -= 10;
-    } else {
-      lifeRight -= 10;
-    }
+function setFriendStatus(online) {
+  if (!friendStatusEl) {
+    return;
   }
 
-  updateLife();
-  checkGameOver();
-
-  clearDisplay("left");
-  clearDisplay("right");
-
-  currentQuestion = generateQuestion();
-  updateQuestion();
+  friendStatusEl.textContent = online ? "Ami: connecté" : "Ami: hors ligne";
+  friendStatusEl.classList.toggle("online", online);
 }
 
-// FIN
-function checkGameOver() {
-  if (lifeLeft <= 0) {
-    alert("🐰 Le lapin gagne !");
-    restartGame();
+function clearRoomExpiryTimer() {
+  if (!roomExpiryTimer) {
+    return;
   }
 
-  if (lifeRight <= 0) {
-    alert("🦆 Le canard gagne !");
-    restartGame();
-  }
+  clearTimeout(roomExpiryTimer);
+  roomExpiryTimer = null;
 }
 
-// RESET
-function restartGame() {
-  lifeLeft = 100;
-  lifeRight = 100;
+function resetRoomExpiryTimer() {
+  clearRoomExpiryTimer();
 
-  updateLife();
-
-  currentQuestion = generateQuestion();
-  updateQuestion();
-}
-
-// CRÉER CALCULATRICE
-function createCalculator(player, containerId) {
-  let container = document.getElementById(containerId);
-
-  for (let i = 1; i <= 9; i++) {
-    let btn = document.createElement("button");
-    btn.textContent = i;
-    btn.onclick = () => press(player, i);
-    container.appendChild(btn);
+  if (!isHost || !roomChannel) {
+    return;
   }
 
-  let clearBtn = document.createElement("button");
+  roomExpiryTimer = setTimeout(async () => {
+    await leaveRoom("Salle expirée après inactivité. Génère un nouveau code.");
+  }, ROOM_INACTIVITY_MS);
+}
+
+function updateRoleTitle() {
+  if (mySide === "left") {
+    myRoleTitleEl.textContent = "Ton camp: 🦆 Canard";
+    return;
+  }
+
+  if (mySide === "right") {
+    myRoleTitleEl.textContent = "Ton camp: 🐰 Lapin";
+    return;
+  }
+
+  myRoleTitleEl.textContent = "Ton côté";
+}
+
+function renderState() {
+  questionSelfEl.textContent = `${gameState.question.text} = ?`;
+  lifeLeftEl.textContent = `${Math.max(0, gameState.lifeLeft)} ❤️`;
+  lifeRightEl.textContent = `${Math.max(0, gameState.lifeRight)} ❤️`;
+  nameLeftEl.textContent = gameState.players.left || "Canard";
+  nameRightEl.textContent = gameState.players.right || "Lapin";
+  updateRoleTitle();
+}
+
+function bumpVersion() {
+  gameState.version = (gameState.version || 0) + 1;
+}
+
+function createCalculator() {
+  calcSelfEl.innerHTML = "";
+
+  for (let i = 1; i <= 9; i += 1) {
+    const button = document.createElement("button");
+    button.textContent = String(i);
+    button.addEventListener("click", () => {
+      displaySelfEl.value += String(i);
+    });
+    calcSelfEl.appendChild(button);
+  }
+
+  const clearBtn = document.createElement("button");
   clearBtn.textContent = "C";
-  clearBtn.onclick = () => clearDisplay(player);
+  clearBtn.addEventListener("click", () => {
+    displaySelfEl.value = "";
+  });
 
-  let zeroBtn = document.createElement("button");
+  const zeroBtn = document.createElement("button");
   zeroBtn.textContent = "0";
-  zeroBtn.onclick = () => press(player, 0);
+  zeroBtn.addEventListener("click", () => {
+    displaySelfEl.value += "0";
+  });
 
-  let goBtn = document.createElement("button");
+  const goBtn = document.createElement("button");
   goBtn.textContent = "GO";
-  goBtn.onclick = () => submitAnswer(player);
+  goBtn.addEventListener("click", submitMyAnswer);
 
-  container.appendChild(clearBtn);
-  container.appendChild(zeroBtn);
-  container.appendChild(goBtn);
+  calcSelfEl.appendChild(clearBtn);
+  calcSelfEl.appendChild(zeroBtn);
+  calcSelfEl.appendChild(goBtn);
 }
 
-// INIT
-updatePlayerName();
-createCalculator("left", "calcLeft");
-createCalculator("right", "calcRight");
+function checkGameOver() {
+  if (gameState.lifeLeft <= 0 || gameState.lifeRight <= 0) {
+    const winner = gameState.lifeLeft <= 0 ? "🐰 Lapin" : "🦆 Canard";
+    setStatus(`Fin de manche: ${winner} gagne.`);
+    gameState.lifeLeft = 100;
+    gameState.lifeRight = 100;
+    gameState.question = generateQuestion();
+    bumpVersion();
+  }
+}
 
-updateQuestion();
-updateLife();
+function applyAnswer(side, answer) {
+  const value = Number.parseInt(answer, 10);
+
+  if (Number.isNaN(value)) {
+    return;
+  }
+
+  if (value === gameState.question.answer) {
+    if (side === "left") {
+      gameState.lifeRight -= 10;
+    } else {
+      gameState.lifeLeft -= 10;
+    }
+  } else if (side === "left") {
+    gameState.lifeLeft -= 10;
+  } else {
+    gameState.lifeRight -= 10;
+  }
+
+  checkGameOver();
+  gameState.question = generateQuestion();
+  bumpVersion();
+  renderState();
+}
+
+async function broadcastState() {
+  if (!roomChannel) {
+    return;
+  }
+
+  await roomChannel.send({
+    type: "broadcast",
+    event: "state",
+    payload: {
+      gameState,
+      side: mySide,
+    },
+  });
+}
+
+async function sendAnswer(answer) {
+  if (!roomChannel || !mySide) {
+    return;
+  }
+
+  await roomChannel.send({
+    type: "broadcast",
+    event: "answer",
+    payload: {
+      side: mySide,
+      answer,
+      questionId: gameState.question.id,
+    },
+  });
+}
+
+async function submitMyAnswer() {
+  if (!roomChannel || !mySide) {
+    setStatus("Crée ou rejoins une salle d'abord.");
+    return;
+  }
+
+  const answer = displaySelfEl.value.trim();
+  if (!answer) {
+    return;
+  }
+
+  displaySelfEl.value = "";
+
+  if (isHost) {
+    applyAnswer(mySide, answer);
+    resetRoomExpiryTimer();
+    await broadcastState();
+    return;
+  }
+
+  await sendAnswer(answer);
+}
+
+async function leaveRoom(customStatus = "Tu as quitté la salle.") {
+  clearRoomExpiryTimer();
+
+  if (roomChannel) {
+    await supabaseClient.removeChannel(roomChannel);
+  }
+
+  roomChannel = null;
+  roomCode = null;
+  mySide = null;
+  isHost = false;
+  activeRoomCodeEl.textContent = "-";
+  setFriendStatus(false);
+  updateRoleTitle();
+  setStatus(customStatus);
+}
+
+async function waitForHostPresence(timeoutMs = 3000) {
+  const start = Date.now();
+
+  while (Date.now() - start < timeoutMs) {
+    const players = getPresencePlayers();
+    const hostPlayer = players.find((entry) => entry.side === "left");
+    if (hostPlayer) {
+      return true;
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+
+  return false;
+}
+
+function getPresencePlayers() {
+  if (!roomChannel) {
+    return [];
+  }
+
+  const state = roomChannel.presenceState();
+  const entries = Object.values(state);
+  return entries.flat();
+}
+
+async function syncPlayersFromPresence() {
+  const players = getPresencePlayers();
+  const leftPlayer = players.find((entry) => entry.side === "left");
+  const rightPlayer = players.find((entry) => entry.side === "right");
+
+  const friendOnline = mySide === "left" ? !!rightPlayer : !!leftPlayer;
+  setFriendStatus(friendOnline);
+
+  if (isHost && friendOnline) {
+    resetRoomExpiryTimer();
+  }
+
+  let changed = false;
+
+  if (leftPlayer?.pseudo) {
+    if (gameState.players.left !== leftPlayer.pseudo) {
+      changed = true;
+    }
+    gameState.players.left = leftPlayer.pseudo;
+  } else if (!gameState.players.left) {
+    gameState.players.left = "Canard";
+    changed = true;
+  }
+
+  if (rightPlayer?.pseudo) {
+    if (gameState.players.right !== rightPlayer.pseudo) {
+      changed = true;
+    }
+    gameState.players.right = rightPlayer.pseudo;
+  } else if (!gameState.players.right) {
+    gameState.players.right = "Lapin";
+    changed = true;
+  }
+
+  if (changed) {
+    bumpVersion();
+  }
+
+  renderState();
+
+  if (players.length > 2) {
+    setStatus("Salle pleine (2 joueurs max). Choisis un autre code.");
+    await leaveRoom();
+    return;
+  }
+
+  if (isHost) {
+    await broadcastState();
+  }
+}
+
+async function joinRoom(code, side, hostMode) {
+  if (!supabaseClient) {
+    setStatus("Supabase indisponible. Impossible de jouer en ligne.");
+    return;
+  }
+
+  if (roomChannel) {
+    await leaveRoom();
+  }
+
+  roomCode = normalizeCode(code);
+  mySide = side;
+  isHost = hostMode;
+
+  if (mySide === "left") {
+    gameState.players.left = connectedPseudo;
+  } else if (mySide === "right") {
+    gameState.players.right = connectedPseudo;
+  }
+
+  renderState();
+
+  roomChannel = supabaseClient.channel(`${ROOM_PREFIX}${roomCode}`, {
+    config: {
+      presence: { key: `${connectedPseudo}-${Math.random().toString(36).slice(2, 8)}` },
+      broadcast: { self: true },
+    },
+  });
+
+  roomChannel
+    .on("broadcast", { event: "state" }, ({ payload }) => {
+      if (!payload?.gameState) {
+        return;
+      }
+
+      const incomingVersion = payload.gameState.version || 0;
+      const localVersion = gameState.version || 0;
+      if (incomingVersion < localVersion) {
+        return;
+      }
+
+      gameState = {
+        ...payload.gameState,
+        players: {
+          left: payload.gameState?.players?.left || gameState.players.left || "Canard",
+          right: payload.gameState?.players?.right || gameState.players.right || "Lapin",
+        },
+      };
+      renderState();
+    })
+    .on("broadcast", { event: "answer" }, async ({ payload }) => {
+      if (!isHost) {
+        return;
+      }
+
+      if (!payload?.side) {
+        return;
+      }
+
+      if (payload.questionId && payload.questionId !== gameState.question.id) {
+        await broadcastState();
+        return;
+      }
+
+      resetRoomExpiryTimer();
+      applyAnswer(payload.side, payload.answer);
+      await broadcastState();
+    })
+    .on("presence", { event: "sync" }, async () => {
+      await syncPlayersFromPresence();
+    });
+
+  roomChannel.subscribe(async (status) => {
+    if (status !== "SUBSCRIBED") {
+      return;
+    }
+
+    await roomChannel.track({
+      pseudo: connectedPseudo,
+      side: mySide,
+      joinedAt: Date.now(),
+    });
+
+    if (isHost) {
+      activeRoomCodeEl.textContent = roomCode;
+      setStatus(`Salle ${roomCode} créée. Invite ton ami avec ce code.`);
+      setFriendStatus(false);
+
+      gameState = {
+        version: 1,
+        lifeLeft: 100,
+        lifeRight: 100,
+        question: generateQuestion(),
+        players: {
+          left: connectedPseudo,
+          right: "Lapin",
+        },
+      };
+      renderState();
+      resetRoomExpiryTimer();
+      await broadcastState();
+      return;
+    }
+
+    setStatus(`Vérification de la salle ${roomCode}...`);
+    const hasHost = await waitForHostPresence();
+
+    if (!hasHost) {
+      await leaveRoom("Code invalide ou salle inactive. Demande un code créé par ton ami.");
+      return;
+    }
+
+    activeRoomCodeEl.textContent = roomCode;
+    setFriendStatus(true);
+    setStatus(`Connecté à la salle ${roomCode}. Duel prêt.`);
+  });
+}
+
+function initSupabase() {
+  try {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch {
+    supabaseClient = null;
+  }
+}
+
+function bindEvents() {
+  createRoomBtnEl.addEventListener("click", async () => {
+    const generatedCode = createCode();
+    await joinRoom(generatedCode, "left", true);
+  });
+
+  copyCodeBtnEl.addEventListener("click", async () => {
+    const code = activeRoomCodeEl.textContent.trim();
+
+    if (!code || code === "-") {
+      setStatus("Aucun code actif à copier. Génère une salle d'abord.");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(code);
+      setStatus(`Code ${code} copié.`);
+    } catch {
+      setStatus("Impossible de copier automatiquement. Copie le code affiché.");
+    }
+  });
+
+  joinRoomBtnEl.addEventListener("click", async () => {
+    const rawCode = window.prompt("Entre le code reçu (6 caractères)", "");
+    if (rawCode === null) {
+      return;
+    }
+
+    const code = normalizeCode(rawCode);
+    if (code.length !== 6) {
+      setStatus("Code invalide. Le code doit contenir 6 caractères.");
+      return;
+    }
+
+    await joinRoom(code, "right", false);
+  });
+
+  leaveRoomBtnEl.addEventListener("click", async () => {
+    await leaveRoom();
+  });
+}
+
+function init() {
+  const pseudo = getConnectedPseudo();
+  if (!pseudo) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  connectedPseudo = pseudo;
+  connectedPseudoEl.textContent = `Pseudo: ${connectedPseudo}`;
+  setFriendStatus(false);
+
+  initSupabase();
+  createCalculator();
+  renderState();
+  bindEvents();
+}
+
+init();

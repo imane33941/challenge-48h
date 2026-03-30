@@ -2,54 +2,88 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Math Fight 🦆 vs 🐰</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260330-05">
 </head>
 
 <body>
-
-<div class="game">
-
-  <!-- CANARD -->
-  <div class="player left">
-    <h2 id="playerNameLeft">🦆 Canard</h2>
-    <div class="question" id="questionLeft"></div>
-    <input type="text" id="displayLeft" readonly>
-    <div class="calculator" id="calcLeft"></div>
-  </div>
-
-  <!-- CENTRE -->
-  <div class="center">
-    <h2>🦆 VS 🐰</h2>
-
-    <div class="battle">
-      <div class="fighter">
-        <div class="character">🦆</div>
-        <div class="life" id="lifeLeft">100 ❤️</div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="title-wrap">
+        <a href="menu.html" class="back-link">← Menu</a>
+        <h1>Math Fight Duo</h1>
       </div>
 
-      <div class="vs">⚔️</div>
-
-      <div class="fighter">
-        <div class="character">🐰</div>
-        <div class="life" id="lifeRight">100 ❤️</div>
+      <div class="room-wrap">
+        <p class="pseudo" id="connectedPseudo">Joueur</p>
+        <button type="button" id="createRoomBtn" class="small-btn">Générer code</button>
+        <button type="button" id="copyCodeBtn" class="small-btn">Copier code</button>
+        <button type="button" id="joinRoomBtn" class="small-btn">Rejoindre</button>
+        <button type="button" id="leaveRoomBtn" class="small-btn muted">Quitter</button>
+        <p class="room-code">Code: <span id="activeRoomCode">-</span></p>
+        <p class="friend-status" id="friendStatus">Ami: hors ligne</p>
       </div>
-    </div>
+    </header>
 
-    <p>Bonne réponse = attaque 💥 | Mauvaise = tu prends un coup 😈</p>
+    <p class="status" id="multiplayerStatus">Crée un code ou rejoins un ami pour lancer le duel.</p>
+
+    <main class="game">
+      <section class="player-panel">
+        <h2 id="myRoleTitle">Ton côté</h2>
+        <p class="hint">Tape la réponse puis GO.</p>
+        <div class="question" id="questionSelf">-</div>
+        <input type="text" id="displaySelf" readonly>
+        <div class="calculator" id="calcSelf"></div>
+      </section>
+
+      <section class="duel-panel">
+        <h2 class="duel-title">
+          <img src="assets/canard-boxeur.png?v=1" alt="Canard" class="title-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span class="title-fallback" aria-hidden="true">🦆</span>
+          <span>VS</span>
+          <img src="assets/lapin-boxeur.png?v=1" alt="Lapin" class="title-avatar" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span class="title-fallback" aria-hidden="true">🐰</span>
+        </h2>
+        <div class="battle">
+          <div class="fighter">
+            <div class="character duck-character">
+              <img
+                src="assets/canard-boxeur.png?v=1"
+                alt="Canard boxeur"
+                class="duck-avatar"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+              >
+              <span class="duck-fallback" aria-hidden="true">🦆</span>
+            </div>
+            <p class="name" id="nameLeft">Canard</p>
+            <div class="life" id="lifeLeft">100 ❤️</div>
+          </div>
+
+          <div class="vs">⚔️</div>
+
+          <div class="fighter">
+            <div class="character rabbit-character">
+              <img
+                src="assets/lapin-boxeur.png?v=1"
+                alt="Lapin boxeur"
+                class="rabbit-avatar"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+              >
+              <span class="rabbit-fallback" aria-hidden="true">🐰</span>
+            </div>
+            <p class="name" id="nameRight">Lapin</p>
+            <div class="life" id="lifeRight">100 ❤️</div>
+          </div>
+        </div>
+
+        <p class="rule">Bonne réponse = attaque. Mauvaise réponse = dégâts sur ton camp.</p>
+      </section>
+    </main>
   </div>
 
-  <!-- LAPIN -->
-  <div class="player right">
-    <h2>🐰 Lapin</h2>
-    <div class="question" id="questionRight"></div>
-    <input type="text" id="displayRight" readonly>
-    <div class="calculator" id="calcRight"></div>
-  </div>
-
-</div>
-
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js?v=20260330-07"></script>
 
 </body>
 </html>

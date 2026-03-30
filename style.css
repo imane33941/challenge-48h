@@ -1,93 +1,261 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Manrope:wght@400;600;700&display=swap");
+
+:root {
+  --ink: #1f2833;
+  --paper: rgba(255, 255, 255, 0.84);
+  --blue: #0f6fa6;
+  --rose: #c94a7c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(to right, #ffd6e0, #cde7ff);
+  font-family: "Manrope", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(15, 111, 166, 0.24), transparent 35%),
+    radial-gradient(circle at 88% 78%, rgba(201, 74, 124, 0.24), transparent 34%),
+    linear-gradient(135deg, #eaf6ff, #fff1f6);
+  min-height: 100vh;
+}
+
+.shell {
+  width: min(1160px, 95vw);
+  margin: 0 auto;
+  padding: 20px 0 32px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.title-wrap h1 {
+  margin: 6px 0 0;
+  font-family: "Rajdhani", sans-serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+}
+
+.back-link {
+  text-decoration: none;
+  color: #28587a;
+  font-weight: 700;
+}
+
+.room-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  background: var(--paper);
+  border: 1px solid rgba(31, 40, 51, 0.1);
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.pseudo,
+.room-code {
+  margin: 0;
+  font-weight: 700;
+}
+
+.friend-status {
+  margin: 0;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef3f7;
+  color: #425b6d;
+}
+
+.friend-status.online {
+  background: #e5f7ed;
+  color: #1f7a43;
+}
+
+#roomCodeInput {
+  width: 90px;
+  text-transform: uppercase;
+  border: 1px solid #c1ced9;
+  border-radius: 9px;
+  padding: 8px;
+}
+
+.small-btn {
+  border: 0;
+  border-radius: 9px;
+  padding: 8px 10px;
+  background: #133c5b;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.small-btn.muted {
+  background: #8c98a1;
+}
+
+.status {
+  margin: 12px 0 0;
+  min-height: 22px;
+  font-weight: 600;
 }
 
 .game {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh;
-  padding: 20px;
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 18px;
+  margin-top: 12px;
 }
 
-.player {
-  width: 30%;
-  background: #ffffffcc;
-  padding: 20px;
+.player-panel,
+.duel-panel {
+  background: var(--paper);
   border-radius: 20px;
+  box-shadow: 0 18px 35px rgba(20, 62, 86, 0.17);
+  padding: 18px;
+}
+
+.player-panel {
+  border-top: 8px solid var(--blue);
+}
+
+.duel-panel {
+  border-top: 8px solid var(--rose);
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-.left {
-  border-top: 10px solid #6ec1e4;
+.duel-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 4px 0 10px;
 }
 
-.right {
-  border-top: 10px solid #ff8fab;
+.title-avatar {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+
+.title-fallback {
+  display: none;
+  font-size: 1.6rem;
+}
+
+.hint {
+  margin-top: 0;
 }
 
 .question {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 700;
+  margin: 6px 0 10px;
 }
 
-input {
-  width: 150px;
-  padding: 10px;
-  font-size: 18px;
+#displaySelf {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.25rem;
   text-align: center;
+  border-radius: 12px;
+  border: 1px solid #cad7df;
   margin-bottom: 10px;
-  border-radius: 10px;
-  border: none;
+  background: #fff;
 }
 
 .calculator {
   display: grid;
-  grid-template-columns: repeat(3, 60px);
-  gap: 10px;
-  justify-content: center;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .calculator button {
-  padding: 15px;
+  border: 0;
   border-radius: 10px;
-  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  background: #eee;
+  background: #edf3f8;
 }
 
 .calculator button:active {
-  transform: scale(0.9);
-}
-
-/* CENTRE */
-.center {
-  width: 30%;
-  text-align: center;
+  transform: scale(0.97);
 }
 
 .battle {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  margin: 20px 0;
+  gap: 10px;
+  margin: 16px 0;
 }
 
 .character {
-  font-size: 70px;
+  font-size: clamp(3.1rem, 8vw, 4.8rem);
+}
+
+.duck-character,
+.rabbit-character {
+  min-height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.duck-avatar,
+.rabbit-avatar {
+  width: clamp(120px, 22vw, 180px);
+  height: auto;
+  object-fit: contain;
+}
+
+.duck-fallback,
+.rabbit-fallback {
+  display: none;
+  font-size: clamp(3.1rem, 8vw, 4.8rem);
+}
+
+.name {
+  margin: 6px 0;
+  font-weight: 700;
 }
 
 .life {
-  font-size: 20px;
-  margin-top: 10px;
-  background: #ffccd5;
-  padding: 5px 10px;
+  display: inline-block;
+  font-size: 1.1rem;
+  background: #ffe1ea;
+  padding: 6px 10px;
   border-radius: 10px;
 }
 
 .vs {
-  font-size: 30px;
+  font-size: 2rem;
+}
+
+.rule {
+  margin-bottom: 0;
+}
+
+@media (max-width: 920px) {
+  .topbar {
+    flex-direction: column;
+  }
+
+  .room-wrap {
+    justify-content: flex-start;
+  }
+
+  .game {
+    grid-template-columns: 1fr;
+  }
 }
