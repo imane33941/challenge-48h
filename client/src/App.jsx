@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
 import './App.css'
 
 const SUPABASE_URL = 'https://jsiwbxlvrmpwovfcntau.supabase.co'
@@ -10,8 +9,8 @@ const ROOM_PREFIX = 'duel-room-'
 const hasSupabaseConfig =
   !SUPABASE_URL.includes('YOUR_PROJECT_ID') && SUPABASE_ANON_KEY !== 'YOUR_ANON_KEY'
 
-const supabase = hasSupabaseConfig
-  ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+const supabase = hasSupabaseConfig && window.supabase
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
   : null
 
 function normalizePseudo(pseudo) {
