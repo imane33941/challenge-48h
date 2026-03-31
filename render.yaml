@@ -8,3 +8,19 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+
+  - type: static
+    name: challenge-48h-web
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://challenge-48h-api.onrender.com
+      - key: VITE_WS_URL
+        value: https://challenge-48h-api.onrender.com
+      - key: VITE_SUPABASE_URL
+        value: https://eihmbmkwjymxmihronqd.supabase.co/
+      - key: VITE_SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpaG1ibWt3anlteG1paHJvbnFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4Njc1NzgsImV4cCI6MjA5MDQ0MzU3OH0.aP8EEKoxxakaMg5ImRAetmdrOjdc6aDSH_If1GB80vM
+      - key: VITE_EXERCISE_ID
+        value: "1"
