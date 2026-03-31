@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: challenge-48h
+    name: challenge-48h-api
     env: node
     plan: free
-    buildCommand: cd client && npm install && npm run build && cd ../server && npm install && npm run build && mkdir -p dist/public && cp -r ../client/dist/* dist/public/
+    buildCommand: cd server && npm install && npm run build
     startCommand: cd server && node dist/main
     envVars:
       - key: NODE_ENV
