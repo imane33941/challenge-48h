@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Manrope:wght@400;600;700&display=swap");
+
+.quiz-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(15, 111, 166, 0.24), transparent 35%),
+    radial-gradient(circle at 88% 78%, rgba(201, 74, 124, 0.24), transparent 34%),
+    linear-gradient(135deg, #eaf6ff, #fff1f6);
+}
+
+.quiz-card {
+  width: min(700px, 96vw);
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(31, 40, 51, 0.1);
+  border-radius: 22px;
+  box-shadow: 0 18px 35px rgba(20, 62, 86, 0.17);
+  padding: 26px 24px;
+  text-align: center;
+}
+
+.back-btn {
+  border: none;
+  background: #1a2a4a;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 900;
+  cursor: pointer;
+  margin: 0 auto 10px;
+  display: inline-block;
+}
+
+.quiz-loading {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1f2833;
+}
+
+.quiz-score {
+  margin: 0 0 10px;
+  font-weight: 800;
+  color: #0f6fa6;
+}
+
+.quiz-question {
+  margin: 0;
+  min-height: 80px;
+  display: grid;
+  place-items: center;
+  font-family: "Rajdhani", sans-serif;
+  font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+  line-height: 1.2;
+  color: #1f2833;
+}
+
+.quiz-answers {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.quiz-answer {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #edf3f8;
+  color: #1f2833;
+  transition: transform 0.12s ease, background-color 0.2s ease;
+}
+
+.quiz-answer:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.quiz-answer.correct {
+  background: #d7f5df;
+}
+
+.quiz-answer.wrong {
+  background: #ffd8d8;
+}
+
+.quiz-answer:disabled {
+  cursor: not-allowed;
+}
+
+.quiz-feedback {
+  margin: 14px 0 0;
+  font-weight: 800;
+}
+
+.quiz-feedback.ok {
+  color: #166534;
+}
+
+.quiz-feedback.ko {
+  color: #b91c1c;
+}

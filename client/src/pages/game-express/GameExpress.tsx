@@ -11,7 +11,8 @@ const ROOM_PREFIX = 'express-room-'
 const MAX_SCORE = 7
 const POLE_HEIGHT = 300
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+const supabase =
+  SUPABASE_URL && SUPABASE_ANON_KEY ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null
 
 function generateQuestion() {
   const a = Math.floor(Math.random() * 10)
@@ -69,7 +70,7 @@ export default function GameExpress() {
 
   useEffect(() => {
     return () => {
-      if (channelRef.current) supabase.removeChannel(channelRef.current)
+      if (channelRef.current && supabase) supabase.removeChannel(channelRef.current)
     }
   }, [])
 
@@ -108,7 +109,7 @@ export default function GameExpress() {
   }
 
   async function leaveRoom() {
-    if (channelRef.current) await supabase.removeChannel(channelRef.current)
+    if (channelRef.current && supabase) await supabase.removeChannel(channelRef.current)
     channelRef.current = null
     isHostRef.current = false
     sideRef.current = null
@@ -152,6 +153,11 @@ export default function GameExpress() {
   }
 
   async function joinRoom(code: string, side: string, hostMode: boolean) {
+    if (!supabase) {
+      setStatus('Configuration Supabase manquante (.env).')
+      return
+    }
+
     if (channelRef.current) await leaveRoom()
 
     const roomCode = normalizeCode(code)
@@ -255,13 +261,9 @@ export default function GameExpress() {
       <div className="express-page">
         <div className="game-over-screen">
           <div className="game-over-screen__emoji">{winner === pseudo ? '🏆' : '💔'}</div>
-          <h2 className="game-over-screen__title">
-            {winner === pseudo ? `Bravo ${pseudo} !` : `${winner} a gagné !`}
-          </h2>
+          <h2 className="game-over-screen__title">{winner === pseudo ? 'YOU WIN' : 'GAME OVER'}</h2>
           <p className="game-over-screen__sub">
-            {winner === pseudo
-              ? 'Tu as grimpé en premier !'
-              : 'Meilleure chance la prochaine fois !'}
+            {winner === pseudo ? `Bravo ${pseudo} !` : `${winner} a gagné !`}
           </p>
           <div className="game-over-screen__stats">
             <div className="game-over-screen__stat">

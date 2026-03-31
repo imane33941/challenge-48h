@@ -2,6 +2,7 @@ import { useGameStore } from '@/store/gameStore'
 import canardImg from '@/assets/canard-boxeur.png'
 import lapinImg from '@/assets/lapin-boxeur.png'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './DuelPage.css'
 
 function generateCode() {
@@ -16,6 +17,7 @@ function generateCode() {
 }
 
 export default function DuelPage() {
+  const navigate = useNavigate()
   const {
     userId,
     userName,
@@ -153,6 +155,9 @@ export default function DuelPage() {
       <div className="shell">
         <header className="topbar">
           <div className="title-wrap">
+            <button className="back-btn" type="button" onClick={() => navigate('/menu')}>
+              ← Menu
+            </button>
             <h1>Math Fight Duo</h1>
           </div>
           <div className="room-wrap">
@@ -230,6 +235,9 @@ export default function DuelPage() {
     return (
       <div className="shell">
         <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+          <button className="back-btn" type="button" onClick={() => navigate('/menu')}>
+            ← Menu
+          </button>
           <div style={{ fontSize: '80px', marginBottom: '20px' }}>{hasWon ? '🏆' : '💔'}</div>
           <p style={{ fontSize: '24px', fontWeight: 'bold', margin: '20px 0' }}>
             {hasWon ? 'YOU WIN' : 'GAME OVER'}
@@ -247,6 +255,9 @@ export default function DuelPage() {
     <div className="shell">
       <header className="topbar">
         <div className="title-wrap">
+          <button className="back-btn" type="button" onClick={() => navigate('/menu')}>
+            ← Menu
+          </button>
           <h1>Math Fight Duo</h1>
         </div>
         <div className="room-wrap">
