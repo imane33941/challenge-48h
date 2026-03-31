@@ -2,7 +2,8 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { io, Socket } from 'socket.io-client'
 
-const WS_URL = 'http://localhost:3000'
+const WS_URL =
+  import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 interface Question {
   text: string
