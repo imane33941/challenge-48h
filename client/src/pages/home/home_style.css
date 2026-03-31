@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, 'Times New Roman', serif;
   color: #1f1f1f;
 }
 
@@ -74,7 +74,6 @@ body {
   display: block;
 }
 
-/* Bouton joueur */
 .playerButton {
   border: 2px solid #e0d5c5;
   border-radius: 999px;

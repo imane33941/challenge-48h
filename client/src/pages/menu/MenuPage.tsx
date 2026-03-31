@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGameStore } from '@/store/gameStore'
 import './MenuPage.css'
