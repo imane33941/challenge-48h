@@ -10,7 +10,7 @@ services:
         value: production
 
   - type: static
-    name: challenge-48h-web
+    name: challenge-48h-1
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: client/dist
     envVars:
