@@ -3,7 +3,9 @@ import { persist } from 'zustand/middleware'
 import { io, Socket } from 'socket.io-client'
 
 const WS_URL =
-  import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_URL || 'http://localhost:3000'
+  import.meta.env.VITE_WS_URL ||
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? 'http://localhost:3000' : '')
 
 interface Question {
   text: string

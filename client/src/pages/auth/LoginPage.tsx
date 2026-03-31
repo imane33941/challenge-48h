@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useGameStore } from '@/store/gameStore'
 import './LoginPage.css'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '')
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -23,6 +23,11 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!API_URL) {
+      setStatus({ msg: 'Configuration manquante: VITE_API_URL', type: 'error' })
+      return
+    }
+
     if (!email || !password) {
       setStatus({ msg: 'Email et mot de passe sont obligatoires.', type: 'error' })
       return
