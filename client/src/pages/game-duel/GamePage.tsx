@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { useNavigate } from 'react-router-dom'
 import { useGameStore } from '@/store/gameStore'
 import './GamePage.css'
+import { useInvite } from '@/hooks/useInvite'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -36,6 +37,13 @@ export default function GamePage() {
   const navigate = useNavigate()
   const { userName } = useGameStore()
   const pseudo = userName || 'joueur'
+
+  const { invitation, inviteSent, sendInvite, acceptInvite, declineInvite } = useInvite(
+    pseudo,
+    (roomCode) => joinRoom(roomCode, 'right', false)
+  )
+
+  const [invitePseudo, setInvitePseudo] = useState('')
 
   const channelRef = useRef<any>(null)
   const isHostRef = useRef(false)
@@ -294,6 +302,42 @@ export default function GamePage() {
           </p>
         </div>
       </header>
+      {invitation && (
+        <div className="invite-toast">
+          <p>
+            📨 <strong>{invitation.from}</strong> t'invite à jouer !
+          </p>
+          <div className="invite-toast__btns">
+            <button className="invite-btn invite-btn--accept" onClick={acceptInvite}>
+              ✅ Accepter
+            </button>
+            <button className="invite-btn invite-btn--decline" onClick={declineInvite}>
+              ❌ Refuser
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="invite-bar">
+        <input
+          placeholder="Pseudo de l'ami..."
+          value={invitePseudo}
+          onChange={(e) => setInvitePseudo(e.target.value)}
+          className="invite-input"
+        />
+        <button
+          className="small-btn"
+          disabled={inviteSent || !invitePseudo.trim()}
+          onClick={() => {
+            const code = createCode()
+            joinRoom(code, 'left', true)
+            sendInvite(invitePseudo.trim(), code, 'duel')
+            setRoomCodeInput(code)
+          }}
+        >
+          {inviteSent ? '⏳ Envoyé...' : '📨 Inviter'}
+        </button>
+      </div>
 
       <p className="status">{status}</p>
 

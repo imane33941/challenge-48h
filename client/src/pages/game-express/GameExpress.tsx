@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { useNavigate } from 'react-router-dom'
 import { useGameStore } from '@/store/gameStore'
 import './GameExpress.css'
+import { useInvite } from '@/hooks/useInvite'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -38,6 +39,13 @@ export default function GameExpress() {
   const navigate = useNavigate()
   const { userName } = useGameStore()
   const pseudo = userName || 'joueur'
+
+  const { invitation, inviteSent, sendInvite, acceptInvite, declineInvite } = useInvite(
+    pseudo,
+    (roomCode) => joinRoom(roomCode, 'right', false)
+  )
+
+  const [invitePseudo, setInvitePseudo] = useState('')
 
   const channelRef = useRef<any>(null)
   const isHostRef = useRef(false)
@@ -223,8 +231,8 @@ export default function GameExpress() {
 
   const myScore = mySide === 'left' ? gameState.scoreLeft : gameState.scoreRight
   const oppScore = mySide === 'left' ? gameState.scoreRight : gameState.scoreLeft
-  const myBottom = (gameState.scoreLeft / MAX_SCORE) * POLE_HEIGHT
-  const oppBottom = (gameState.scoreRight / MAX_SCORE) * POLE_HEIGHT
+  const myBottom = (myScore / MAX_SCORE) * POLE_HEIGHT
+  const oppBottom = (oppScore / MAX_SCORE) * POLE_HEIGHT
 
   return (
     <div className="express-page">
@@ -266,10 +274,46 @@ export default function GameExpress() {
         </div>
       </header>
 
+      {invitation && (
+        <div className="invite-toast">
+          <p>
+            📨 <strong>{invitation.from}</strong> t'invite à jouer !
+          </p>
+          <div className="invite-toast__btns">
+            <button className="invite-btn invite-btn--accept" onClick={acceptInvite}>
+              ✅ Accepter
+            </button>
+            <button className="invite-btn invite-btn--decline" onClick={declineInvite}>
+              ❌ Refuser
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="invite-bar">
+        <input
+          placeholder="Pseudo de l'ami..."
+          value={invitePseudo}
+          onChange={(e) => setInvitePseudo(e.target.value)}
+          className="invite-input"
+        />
+        <button
+          className="small-btn"
+          disabled={inviteSent || !invitePseudo.trim()}
+          onClick={() => {
+            const code = createCode()
+            joinRoom(code, 'left', true)
+            sendInvite(invitePseudo.trim(), code, 'express')
+            setRoomCodeInput(code)
+          }}
+        >
+          {inviteSent ? '⏳ Envoyé...' : '📨 Inviter'}
+        </button>
+      </div>
+
       <p className="express-status">{status}</p>
 
       <main className="express-body">
-        {/* Panel gauche */}
         <div className="calc-panel">
           <div className="calc-panel__question calc-panel__question--left">
             {gameState.question.text} = ?
@@ -302,7 +346,7 @@ export default function GameExpress() {
           <div className="calc-panel__score">
             Score :{' '}
             <span>
-              {gameState.scoreLeft}/{MAX_SCORE}
+              {myScore}/{MAX_SCORE}
             </span>
           </div>
         </div>
@@ -354,7 +398,7 @@ export default function GameExpress() {
           <div className="calc-panel__score">
             Score :{' '}
             <span>
-              {gameState.scoreRight}/{MAX_SCORE}
+              {oppScore}/{MAX_SCORE}
             </span>
           </div>
         </div>
