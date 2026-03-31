@@ -8,11 +8,18 @@ import PlayerPage from './pages/player/PlayerPage'
 import { useGameStore } from './store/gameStore'
 import QuestionPage from './pages/quizz/question'
 import HomePage from './pages/home/home_page'
+import GameExpress from './pages/game-express/GameExpress'
 
 function ProtectedMenu() {
   const userId = useGameStore((s) => s.userId)
   if (!userId) return <Navigate to="/login" replace />
   return <MenuPage />
+}
+
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const userId = useGameStore((s) => s.userId)
+  if (!userId) return <Navigate to="/login" replace />
+  return <>{children}</>
 }
 
 function ProtectedLobby() {
@@ -49,4 +56,12 @@ export const router = createBrowserRouter([
   { path: '/player', element: <ProtectedPlayer /> },
   { path: '/question/:niveau', element: <QuestionPage /> },
   { path: '/home', element: <HomePage /> },
+  {
+    path: '/express',
+    element: (
+      <ProtectedRoute>
+        <GameExpress />
+      </ProtectedRoute>
+    ),
+  },
 ])
