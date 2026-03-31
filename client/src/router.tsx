@@ -6,6 +6,8 @@ import GamePage from './pages/game/GamePage'
 import DuelPage from './pages/duel/DuelPage'
 import PlayerPage from './pages/player/PlayerPage'
 import { useGameStore } from './store/gameStore'
+import QuestionPage from './pages/quizz/question'
+import HomePage from './pages/home/home_page'
 
 function ProtectedMenu() {
   const userId = useGameStore((s) => s.userId)
@@ -45,4 +47,6 @@ export const router = createBrowserRouter([
   { path: '/game', element: <ProtectedGame /> },
   { path: '/duel', element: <ProtectedDuel /> },
   { path: '/player', element: <ProtectedPlayer /> },
+  { path: '/question', element: <QuestionPage /> },
+  { path: '/home', element: <HomePage /> },
 ])
