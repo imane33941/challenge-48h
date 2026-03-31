@@ -8,7 +8,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(160deg, #a8edea, #6ec6f5, #b8f0b8);
+  background: radial-gradient(#E6E6FA, #FFF1DB);
   font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
 }
 
