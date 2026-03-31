@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../src/home_style.css";
+import { useGameStore } from "@/store/gameStore";
+import "./home_style.css";
 
 const LEVELS = [
   { id: "facile",   label: "Primaire",  questions: 15 },
@@ -8,7 +9,7 @@ const LEVELS = [
   { id: "difficile",label: "Lycée",     questions: 25 },
 ];
 
-function HomeQuiz({ onLogout }) {
+function HomePage() {
   const navigate = useNavigate();
   const [playerName, setPlayerName]       = useState("Nom du joueur");
   const [selectedLevelId, setSelectedLevelId] = useState(null);
@@ -23,7 +24,8 @@ function HomeQuiz({ onLogout }) {
 
   /* ── Déconnexion ── */
   const handleLogout = () => {
-    if (typeof onLogout === "function") onLogout();
+    const onLogout = navigate("/login");
+    onLogout
     // TODO : intégrer la navigation vers la page login
   };
 
