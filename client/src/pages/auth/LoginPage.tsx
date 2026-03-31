@@ -20,6 +20,27 @@ export default function LoginPage() {
   })
   const [loading, setLoading] = useState(false)
 
+  const handleDemoLogin = () => {
+    // Demo login pour Render - bypass le backend pour tests rapides
+    setLoading(true)
+    setStatus({ msg: 'Connexion démo...', type: '' })
+    
+    setTimeout(() => {
+      const demoToken = 'demo_' + Math.random().toString(36).substring(7)
+      const demoUserId = 'demo_user_' + Math.floor(Math.random() * 10000)
+      
+      localStorage.setItem('access_token', demoToken)
+      localStorage.setItem('user_id', demoUserId)
+      localStorage.setItem('user_name', 'DemoUser')
+      
+      setUser(demoUserId, 'DemoUser', demoToken)
+      connectSocket()
+      setStatus({ msg: 'Mode démo activé!', type: 'success' })
+      setTimeout(() => navigate('/menu'), 800)
+      setLoading(false)
+    }, 500)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email || !password) {
@@ -123,6 +144,18 @@ export default function LoginPage() {
           <button type="submit" className="login__btn" disabled={loading}>
             {loading ? '...' : isLogin ? 'Se connecter' : "S'inscrire"}
           </button>
+
+          {import.meta.env.PROD && (
+            <button 
+              type="button" 
+              className="login__btn" 
+              style={{ backgroundColor: '#FFA500', marginTop: '10px' }}
+              onClick={handleDemoLogin}
+              disabled={loading}
+            >
+              Mode Démo
+            </button>
+          )}
         </form>
 
         {status.msg && (
