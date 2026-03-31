@@ -61,7 +61,14 @@ export default function MenuPage() {
           <article className="menu-card">
             <h2>Quiz Culture G</h2>
             <p>Mini-jeu à réaliser par l'équipe quiz. Emplacement réservé.</p>
-            <span className="menu-play-btn menu-play-btn--disabled">Bientôt disponible</span>
+            <button
+              className="menu-play-btn"
+              onClick={() => {
+                navigate('/home')
+              }}
+            >
+              Jouer
+            </button>
           </article>
 
           <article className="menu-card">
