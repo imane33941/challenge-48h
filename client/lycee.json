@@ -1,0 +1,295 @@
+{
+  "quiz": {
+    "titre": "Culture Générale - Niveau Lycée Filière Générale",
+    "series": [
+      {
+        "serie": 1,
+        "niveau": 1,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quel philosophe a écrit 'Le Contrat social' ?",
+            "bonne_reponse": "Jean-Jacques Rousseau",
+            "mauvaises_reponses": ["Voltaire", "Montesquieu"]
+          },
+          {
+            "id": 2,
+            "question": "Quelle est la capitale de l'Argentine ?",
+            "bonne_reponse": "Buenos Aires",
+            "mauvaises_reponses": ["Santiago", "Lima"]
+          },
+          {
+            "id": 3,
+            "question": "Quel est le symbole chimique de l'or ?",
+            "bonne_reponse": "Au",
+            "mauvaises_reponses": ["Or", "Go"]
+          },
+          {
+            "id": 4,
+            "question": "En quelle année la Première Guerre mondiale a-t-elle commencé ?",
+            "bonne_reponse": "1914",
+            "mauvaises_reponses": ["1918", "1939"]
+          },
+          {
+            "id": 5,
+            "question": "Quel est le nom du processus par lequel une cellule se divise en deux ?",
+            "bonne_reponse": "La mitose",
+            "mauvaises_reponses": ["La méiose", "La cytokinèse"]
+          },
+          {
+            "id": 6,
+            "question": "Quel auteur a écrit 'À la recherche du temps perdu' ?",
+            "bonne_reponse": "Marcel Proust",
+            "mauvaises_reponses": ["Gustave Flaubert", "Émile Zola"]
+          },
+          {
+            "id": 7,
+            "question": "Quelle est la loi physique qui décrit la relation entre tension, intensité et résistance ?",
+            "bonne_reponse": "La loi d'Ohm",
+            "mauvaises_reponses": ["La loi de Faraday", "La loi de Newton"]
+          },
+          {
+            "id": 8,
+            "question": "Quel événement a déclenché la Révolution française ?",
+            "bonne_reponse": "La prise de la Bastille",
+            "mauvaises_reponses": ["L'exécution de Louis XVI", "La fuite à Varennes"]
+          },
+          {
+            "id": 9,
+            "question": "Quel est le plus long fleuve du monde ?",
+            "bonne_reponse": "Le Nil",
+            "mauvaises_reponses": ["L'Amazone", "Le Mississippi"]
+          },
+          {
+            "id": 10,
+            "question": "Combien d'articles comporte la Déclaration des droits de l'homme de 1789 ?",
+            "bonne_reponse": "17",
+            "mauvaises_reponses": ["10", "25"]
+          },
+          {
+            "id": 11,
+            "question": "Quel est le nom de la monnaie unique européenne ?",
+            "bonne_reponse": "L'euro",
+            "mauvaises_reponses": ["Le mark", "L'écu"]
+          },
+          {
+            "id": 12,
+            "question": "Quelle est la formule de la vitesse ?",
+            "bonne_reponse": "v = d / t",
+            "mauvaises_reponses": ["v = d x t", "v = t / d"]
+          },
+          {
+            "id": 13,
+            "question": "Quel gaz est responsable de l'effet de serre ?",
+            "bonne_reponse": "Le dioxyde de carbone (CO2)",
+            "mauvaises_reponses": ["L'oxygène", "L'azote"]
+          },
+          {
+            "id": 14,
+            "question": "Quel est le régime politique de la France ?",
+            "bonne_reponse": "Une République semi-présidentielle",
+            "mauvaises_reponses": ["Une monarchie constitutionnelle", "Une République présidentielle"]
+          },
+          {
+            "id": 15,
+            "question": "Sur quel continent se trouve l'Amazonie ?",
+            "bonne_reponse": "En Amérique du Sud",
+            "mauvaises_reponses": ["En Afrique", "En Asie"]
+          }
+        ]
+      },
+      {
+        "serie": 2,
+        "niveau": 2,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quelle est la capitale de l'Iran ?",
+            "bonne_reponse": "Téhéran",
+            "mauvaises_reponses": ["Bagdad", "Kaboul"]
+          },
+          {
+            "id": 2,
+            "question": "Qui a formulé la théorie de la relativité restreinte ?",
+            "bonne_reponse": "Albert Einstein",
+            "mauvaises_reponses": ["Max Planck", "Niels Bohr"]
+          },
+          {
+            "id": 3,
+            "question": "Quelle est la langue officielle du Brésil ?",
+            "bonne_reponse": "Le portugais",
+            "mauvaises_reponses": ["L'espagnol", "Le brésilien"]
+          },
+          {
+            "id": 4,
+            "question": "En quelle année le mur de Berlin est-il tombé ?",
+            "bonne_reponse": "1989",
+            "mauvaises_reponses": ["1991", "1975"]
+          },
+          {
+            "id": 5,
+            "question": "Quelle planète est surnommée la géante gazeuse rouge ?",
+            "bonne_reponse": "Jupiter",
+            "mauvaises_reponses": ["Saturne", "Neptune"]
+          },
+          {
+            "id": 6,
+            "question": "Quel est le plus petit pays d'Afrique ?",
+            "bonne_reponse": "Les Seychelles",
+            "mauvaises_reponses": ["Djibouti", "Le Cap-Vert"]
+          },
+          {
+            "id": 7,
+            "question": "Quel est l'organe qui produit l'insuline ?",
+            "bonne_reponse": "Le pancréas",
+            "mauvaises_reponses": ["Le foie", "Les reins"]
+          },
+          {
+            "id": 8,
+            "question": "Quel auteur a écrit 'L'Étranger' ?",
+            "bonne_reponse": "Albert Camus",
+            "mauvaises_reponses": ["Jean-Paul Sartre", "Simone de Beauvoir"]
+          },
+          {
+            "id": 9,
+            "question": "Quelle est la capitale de l'Afrique du Sud ?",
+            "bonne_reponse": "Pretoria",
+            "mauvaises_reponses": ["Le Cap", "Johannesburg"]
+          },
+          {
+            "id": 10,
+            "question": "Quel est le principe fondamental de la thermodynamique qui dit que l'énergie se conserve ?",
+            "bonne_reponse": "Le premier principe de la thermodynamique",
+            "mauvaises_reponses": ["Le second principe", "La loi de conservation de la masse"]
+          },
+          {
+            "id": 11,
+            "question": "En quelle année l'ONU a-t-elle été fondée ?",
+            "bonne_reponse": "1945",
+            "mauvaises_reponses": ["1919", "1960"]
+          },
+          {
+            "id": 12,
+            "question": "Quel tunnel relie la France à l'Angleterre ?",
+            "bonne_reponse": "Le tunnel sous la Manche",
+            "mauvaises_reponses": ["Le tunnel du Mont-Blanc", "Le tunnel de Gibraltar"]
+          },
+          {
+            "id": 13,
+            "question": "Quel sport pratique Novak Djokovic ?",
+            "bonne_reponse": "Le tennis",
+            "mauvaises_reponses": ["Le golf", "Le football"]
+          },
+          {
+            "id": 14,
+            "question": "Quelle est la capitale de l'Inde ?",
+            "bonne_reponse": "New Delhi",
+            "mauvaises_reponses": ["Mumbai", "Calcutta"]
+          },
+          {
+            "id": 15,
+            "question": "Quel est le nom du processus par lequel les roches fondent dans le manteau terrestre ?",
+            "bonne_reponse": "La fusion partielle",
+            "mauvaises_reponses": ["L'érosion", "La sédimentation"]
+          }
+        ]
+      },
+      {
+        "serie": 3,
+        "niveau": 3,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quel peintre espagnol est le fondateur du mouvement cubiste ?",
+            "bonne_reponse": "Pablo Picasso",
+            "mauvaises_reponses": ["Salvador Dali", "Joan Miró"]
+          },
+          {
+            "id": 2,
+            "question": "Quel gaz compose la majeure partie de l'air que l'on respire ?",
+            "bonne_reponse": "L'azote",
+            "mauvaises_reponses": ["L'oxygène", "Le dioxyde de carbone"]
+          },
+          {
+            "id": 3,
+            "question": "Quel est le nom du traité fondateur de l'Union européenne signé en 1992 ?",
+            "bonne_reponse": "Le traité de Maastricht",
+            "mauvaises_reponses": ["Le traité de Rome", "Le traité de Lisbonne"]
+          },
+          {
+            "id": 4,
+            "question": "Quelle est la capitale du Pakistan ?",
+            "bonne_reponse": "Islamabad",
+            "mauvaises_reponses": ["Karachi", "Lahore"]
+          },
+          {
+            "id": 5,
+            "question": "Quel auteur français du XIXe siècle a écrit 'Germinal' ?",
+            "bonne_reponse": "Émile Zola",
+            "mauvaises_reponses": ["Victor Hugo", "Honoré de Balzac"]
+          },
+          {
+            "id": 6,
+            "question": "Quel est le nom de la force qui attire les objets vers le sol ?",
+            "bonne_reponse": "La gravité",
+            "mauvaises_reponses": ["Le magnétisme", "L'inertie"]
+          },
+          {
+            "id": 7,
+            "question": "Quelle est la capitale de la Corée du Sud ?",
+            "bonne_reponse": "Séoul",
+            "mauvaises_reponses": ["Pyongyang", "Busan"]
+          },
+          {
+            "id": 8,
+            "question": "Quelle civilisation a inventé l'écriture cunéiforme ?",
+            "bonne_reponse": "Les Sumériens",
+            "mauvaises_reponses": ["Les Égyptiens", "Les Phéniciens"]
+          },
+          {
+            "id": 9,
+            "question": "Quel est le symbole chimique du sodium ?",
+            "bonne_reponse": "Na",
+            "mauvaises_reponses": ["So", "Sd"]
+          },
+          {
+            "id": 10,
+            "question": "Quelle est la religion majoritaire en Inde ?",
+            "bonne_reponse": "L'hindouisme",
+            "mauvaises_reponses": ["L'islam", "Le bouddhisme"]
+          },
+          {
+            "id": 11,
+            "question": "Quel pays a lancé le premier satellite artificiel Spoutnik en 1957 ?",
+            "bonne_reponse": "L'URSS",
+            "mauvaises_reponses": ["Les États-Unis", "La Chine"]
+          },
+          {
+            "id": 12,
+            "question": "Quel savant a proposé que les espèces évoluent par sélection naturelle ?",
+            "bonne_reponse": "Charles Darwin",
+            "mauvaises_reponses": ["Gregor Mendel", "Jean-Baptiste Lamarck"]
+          },
+          {
+            "id": 13,
+            "question": "Dans quel pays se trouve la ville de Berlin ?",
+            "bonne_reponse": "En Allemagne",
+            "mauvaises_reponses": ["En Autriche", "En Suisse"]
+          },
+          {
+            "id": 14,
+            "question": "Quel auteur a écrit 'Le Tour du monde en 80 jours' ?",
+            "bonne_reponse": "Jules Verne",
+            "mauvaises_reponses": ["Alexandre Dumas", "Honoré de Balzac"]
+          },
+          {
+            "id": 15,
+            "question": "Quel est le phénomène par lequel une espèce disparaît définitivement ?",
+            "bonne_reponse": "L'extinction",
+            "mauvaises_reponses": ["La mutation", "La migration"]
+          }
+        ]
+      }
+    ]
+  }
+}

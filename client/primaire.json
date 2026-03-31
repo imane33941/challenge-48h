@@ -1,0 +1,295 @@
+{
+  "quiz": {
+    "titre": "Culture Générale - Niveau Primaire",
+    "series": [
+      {
+        "serie": 1,
+        "niveau": 1,
+        "questions": [
+          {
+            "id": 1,
+            "question": "De quelle couleur est le ciel par beau temps ?",
+            "bonne_reponse": "Bleu",
+            "mauvaises_reponses": ["Vert", "Rouge"]
+          },
+          {
+            "id": 2,
+            "question": "Quel animal dit 'Meuh' ?",
+            "bonne_reponse": "La vache",
+            "mauvaises_reponses": ["Le cheval", "Le mouton"]
+          },
+          {
+            "id": 3,
+            "question": "Quelle est la capitale de la France ?",
+            "bonne_reponse": "Paris",
+            "mauvaises_reponses": ["Lyon", "Marseille"]
+          },
+          {
+            "id": 4,
+            "question": "Combien de jours y a-t-il dans une semaine ?",
+            "bonne_reponse": "7",
+            "mauvaises_reponses": ["5", "10"]
+          },
+          {
+            "id": 5,
+            "question": "Quel fruit est rouge et pousse sur un pommier ?",
+            "bonne_reponse": "La pomme",
+            "mauvaises_reponses": ["La poire", "La banane"]
+          },
+          {
+            "id": 6,
+            "question": "Quel est l'animal le plus grand du monde ?",
+            "bonne_reponse": "La baleine bleue",
+            "mauvaises_reponses": ["L'éléphant", "La girafe"]
+          },
+          {
+            "id": 7,
+            "question": "De quelle couleur est une feuille d'arbre au printemps ?",
+            "bonne_reponse": "Verte",
+            "mauvaises_reponses": ["Jaune", "Marron"]
+          },
+          {
+            "id": 8,
+            "question": "Quel est le bébé de la vache ?",
+            "bonne_reponse": "Le veau",
+            "mauvaises_reponses": ["Le poulain", "L'agneau"]
+          },
+          {
+            "id": 9,
+            "question": "Dans quel pays se trouve la Tour Eiffel ?",
+            "bonne_reponse": "En France",
+            "mauvaises_reponses": ["En Espagne", "En Italie"]
+          },
+          {
+            "id": 10,
+            "question": "Qu'est-ce qui brille dans le ciel ?",
+            "bonne_reponse": "Le Soleil",
+            "mauvaises_reponses": ["La Lune", "Un nuage"]
+          },
+          {
+            "id": 11,
+            "question": "De quelle couleur est une banane ?",
+            "bonne_reponse": "Jaune",
+            "mauvaises_reponses": ["Rouge", "Bleue"]
+          },
+          {
+            "id": 12,
+            "question": "Quel légume est orange ?",
+            "bonne_reponse": "La carotte",
+            "mauvaises_reponses": ["La tomate", "La salade"]
+          },
+          {
+            "id": 13,
+            "question": "Quel animal fait du lait ?",
+            "bonne_reponse": "La vache",
+            "mauvaises_reponses": ["Le chien", "Le lapin"]
+          },
+          {
+            "id": 14,
+            "question": "Quelle saison vient après l'hiver ?",
+            "bonne_reponse": "Le printemps",
+            "mauvaises_reponses": ["L'automne", "L'été"]
+          },
+          {
+            "id": 15,
+            "question": "Quel animal est le roi de la savane ?",
+            "bonne_reponse": "Le lion",
+            "mauvaises_reponses": ["Le tigre", "L'ours"]
+          }
+        ]
+      },
+      {
+        "serie": 2,
+        "niveau": 2,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quel animal a une très longue trompe ?",
+            "bonne_reponse": "L'éléphant",
+            "mauvaises_reponses": ["Le rhinocéros", "L'hippopotame"]
+          },
+          {
+            "id": 2,
+            "question": "De quelle couleur est un flamant rose ?",
+            "bonne_reponse": "Rose",
+            "mauvaises_reponses": ["Blanc", "Rouge"]
+          },
+          {
+            "id": 3,
+            "question": "Quel animal fabrique du miel ?",
+            "bonne_reponse": "L'abeille",
+            "mauvaises_reponses": ["La guêpe", "Le papillon"]
+          },
+          {
+            "id": 4,
+            "question": "Comment s'appelle l'eau qui tombe du ciel ?",
+            "bonne_reponse": "La pluie",
+            "mauvaises_reponses": ["La rosée", "La brume"]
+          },
+          {
+            "id": 5,
+            "question": "Quel oiseau vit dans les pays très froids et ne sait pas voler ?",
+            "bonne_reponse": "Le pingouin",
+            "mauvaises_reponses": ["Le perroquet", "La cigogne"]
+          },
+          {
+            "id": 6,
+            "question": "Quelle est la couleur du drapeau de la France ?",
+            "bonne_reponse": "Bleu, blanc, rouge",
+            "mauvaises_reponses": ["Rouge, blanc, vert", "Bleu, blanc, jaune"]
+          },
+          {
+            "id": 7,
+            "question": "Quel instrument de musique a des touches noires et blanches ?",
+            "bonne_reponse": "Le piano",
+            "mauvaises_reponses": ["La guitare", "Le violon"]
+          },
+          {
+            "id": 8,
+            "question": "Que voit-on dans le ciel la nuit ?",
+            "bonne_reponse": "La Lune",
+            "mauvaises_reponses": ["Le Soleil", "Les nuages"]
+          },
+          {
+            "id": 9,
+            "question": "Quel animal a des rayures noires et blanches comme un cheval ?",
+            "bonne_reponse": "Le zèbre",
+            "mauvaises_reponses": ["Le tigre", "La girafe"]
+          },
+          {
+            "id": 10,
+            "question": "Que mange le panda ?",
+            "bonne_reponse": "Du bambou",
+            "mauvaises_reponses": ["Du poisson", "Des fruits"]
+          },
+          {
+            "id": 11,
+            "question": "Quel organe fait battre notre sang dans le corps ?",
+            "bonne_reponse": "Le cœur",
+            "mauvaises_reponses": ["Le cerveau", "Les poumons"]
+          },
+          {
+            "id": 12,
+            "question": "De quelle couleur est la planète Mars ?",
+            "bonne_reponse": "Rouge",
+            "mauvaises_reponses": ["Bleue", "Jaune"]
+          },
+          {
+            "id": 13,
+            "question": "Quel animal dort tout l'hiver ?",
+            "bonne_reponse": "L'ours",
+            "mauvaises_reponses": ["Le loup", "Le renard"]
+          },
+          {
+            "id": 14,
+            "question": "De quelle couleur est l'herbe ?",
+            "bonne_reponse": "Verte",
+            "mauvaises_reponses": ["Bleue", "Rouge"]
+          },
+          {
+            "id": 15,
+            "question": "Où vit le kangourou ?",
+            "bonne_reponse": "En Australie",
+            "mauvaises_reponses": ["En Afrique", "En Amérique"]
+          }
+        ]
+      },
+      {
+        "serie": 3,
+        "niveau": 3,
+        "questions": [
+          {
+            "id": 1,
+            "question": "Quel animal vit dans les océans et est le plus grand du monde ?",
+            "bonne_reponse": "La baleine",
+            "mauvaises_reponses": ["Le requin", "La pieuvre"]
+          },
+          {
+            "id": 2,
+            "question": "De quelle couleur est le soleil ?",
+            "bonne_reponse": "Jaune",
+            "mauvaises_reponses": ["Bleu", "Vert"]
+          },
+          {
+            "id": 3,
+            "question": "Dans quel pays se trouvent les grandes pyramides les plus célèbres du monde ?",
+            "bonne_reponse": "En Égypte",
+            "mauvaises_reponses": ["En Italie", "En Grèce"]
+          },
+          {
+            "id": 4,
+            "question": "Quel animal a une très longue cou ?",
+            "bonne_reponse": "La girafe",
+            "mauvaises_reponses": ["Le zèbre", "L'éléphant"]
+          },
+          {
+            "id": 5,
+            "question": "De quoi les plantes ont-elles besoin pour pousser ?",
+            "bonne_reponse": "Du soleil et de l'eau",
+            "mauvaises_reponses": ["Du sable", "Du lait"]
+          },
+          {
+            "id": 6,
+            "question": "Quel animal saute très haut et vit en Australie ?",
+            "bonne_reponse": "Le kangourou",
+            "mauvaises_reponses": ["Le lapin", "Le singe"]
+          },
+          {
+            "id": 7,
+            "question": "Quelle langue parle-t-on en Espagne ?",
+            "bonne_reponse": "L'espagnol",
+            "mauvaises_reponses": ["L'italien", "Le portugais"]
+          },
+          {
+            "id": 8,
+            "question": "Comment s'appelle le plus grand océan du monde ?",
+            "bonne_reponse": "L'océan Pacifique",
+            "mauvaises_reponses": ["L'océan Atlantique", "L'océan Indien"]
+          },
+          {
+            "id": 9,
+            "question": "Quelle est la plus haute montagne du monde ?",
+            "bonne_reponse": "L'Everest",
+            "mauvaises_reponses": ["Le Mont Blanc", "Les Alpes"]
+          },
+          {
+            "id": 10,
+            "question": "Quelle langue parle-t-on en Angleterre ?",
+            "bonne_reponse": "L'anglais",
+            "mauvaises_reponses": ["L'allemand", "Le français"]
+          },
+          {
+            "id": 11,
+            "question": "Quel animal tisse une toile pour attraper des insectes ?",
+            "bonne_reponse": "L'araignée",
+            "mauvaises_reponses": ["La mouche", "Le papillon"]
+          },
+          {
+            "id": 12,
+            "question": "Quel fruit pousse sur un bananier ?",
+            "bonne_reponse": "La banane",
+            "mauvaises_reponses": ["La pomme", "L'orange"]
+          },
+          {
+            "id": 13,
+            "question": "Quel animal change de couleur pour se camoufler ?",
+            "bonne_reponse": "Le caméléon",
+            "mauvaises_reponses": ["Le lézard", "La grenouille"]
+          },
+          {
+            "id": 14,
+            "question": "Sur quel continent se trouve l'Égypte ?",
+            "bonne_reponse": "En Afrique",
+            "mauvaises_reponses": ["En Asie", "En Europe"]
+          },
+          {
+            "id": 15,
+            "question": "Quelle est la capitale de l'Espagne ?",
+            "bonne_reponse": "Madrid",
+            "mauvaises_reponses": ["Barcelone", "Lisbonne"]
+          }
+        ]
+      }
+    ]
+  }
+}

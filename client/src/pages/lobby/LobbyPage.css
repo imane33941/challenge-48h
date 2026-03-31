@@ -42,6 +42,127 @@
 }
 
 .lobby__game-btn {
+  .lobby__search-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.lobby__section input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid #e2e8f0;
+  font-size: 0.9rem;
+  flex: 1;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.lobby__section input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.lobby__section--id {
+  text-align: center;
+}
+
+.lobby__id {
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: #475569;
+  word-break: break-all;
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin: 0;
+}
+
+.lobby__btn {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.lobby__btn:active {
+  transform: scale(0.97);
+}
+
+.lobby__btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.lobby__btn--search {
+  background: #f1f5f9;
+  color: #475569;
+  box-shadow: 0 3px 0 #cbd5e1;
+  flex-shrink: 0;
+  padding: 10px 12px;
+}
+
+.lobby__btn--blue {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 3px 0 #1d4ed8;
+  width: 100%;
+}
+
+.lobby__btn--green {
+  background: #16a34a;
+  color: white;
+  box-shadow: 0 3px 0 #15803d;
+}
+
+.lobby__btn--red {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 3px 0 #b91c1c;
+}
+
+.lobby__btn--copy {
+  background: #f1f5f9;
+  color: #475569;
+  box-shadow: 0 3px 0 #cbd5e1;
+  width: 100%;
+}
+
+.lobby__found {
+  background: #dbeafe;
+  border: 2px solid #3b82f6;
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: slide 0.3s ease;
+}
+
+.lobby__found span {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.lobby__not-found {
+  font-size: 0.9rem;
+  color: #dc2626;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+.lobby__invitation {
+  background: #fef9c3;
+  border: 2px solid #fde047;
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,4 +209,31 @@
   font-size: 0.9rem;
   text-align: center;
   padding: 0.5rem;
+  .lobby__invitation-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  @keyframes slide {
+    from {
+      transform: slideX(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pop {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 }

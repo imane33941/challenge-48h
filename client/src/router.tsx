@@ -3,8 +3,12 @@ import LoginPage from './pages/auth/LoginPage'
 import MenuPage from './pages/menu/MenuPage'
 import LobbyPage from './pages/lobby/LobbyPage'
 import GamePage from './pages/game-duel/GamePage'
-import { useGameStore } from './store/gameStore'
 import GameExpress from './pages/game-express/GameExpress'
+import DuelPage from './pages/duel/DuelPage'
+import PlayerPage from './pages/player/PlayerPage'
+import QuestionPage from './pages/quizz/question'
+import HomePage from './pages/home/home_page'
+import { useGameStore } from './store/gameStore'
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const userId = useGameStore((s) => s.userId)
@@ -12,20 +16,32 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
-function ProtectedGame() {
-  const session = useGameStore((s) => s.session)
-  if (!session) return <Navigate to="/login" replace />
-  return <GamePage />
-}
-
 export const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/login" replace /> },
   { path: '/login', element: <LoginPage /> },
+  { path: '/home', element: <HomePage /> },
+  { path: '/question', element: <QuestionPage /> },
   {
     path: '/menu',
     element: (
       <ProtectedRoute>
         <MenuPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/lobby',
+    element: (
+      <ProtectedRoute>
+        <LobbyPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/game',
+    element: (
+      <ProtectedRoute>
+        <GamePage />
       </ProtectedRoute>
     ),
   },
@@ -38,10 +54,18 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: '/game',
+    path: '/duel',
     element: (
       <ProtectedRoute>
-        <GamePage />
+        <DuelPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/player',
+    element: (
+      <ProtectedRoute>
+        <PlayerPage />
       </ProtectedRoute>
     ),
   },

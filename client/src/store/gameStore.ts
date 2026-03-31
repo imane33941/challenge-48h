@@ -35,6 +35,7 @@ interface GameStore {
 
   session: GameSession | null
   setSession: (session: GameSession | null) => void
+  startPracticeGame: () => void
 
   question: Question
   myLife: number
@@ -120,6 +121,38 @@ export const useGameStore = create<GameStore>()(
           })
         })
 
+        socket.on(
+          'player_self_damaged',
+          ({ userId, damage }: { userId: string; damage: number }) => {
+            const me = get().userId
+            if (!me || userId === me) return
+            const nextOppLife = Math.max(0, get().oppLife - damage)
+            set({ oppLife: nextOppLife })
+            if (nextOppLife <= 0) set({ gameOver: get().userName ?? 'Moi' })
+          }
+        )
+
+        socket.on('game_finished', ({ userId: winnerId }: { userId: string }) => {
+          const { userId, userName, session } = get()
+          if (!userId) return
+          if (winnerId === userId) {
+            set({ gameOver: userName ?? 'Moi' })
+          } else {
+            set({ gameOver: session?.opponentName ?? 'Adversaire' })
+          }
+        })
+
+        socket.on('duel_rematch', () => {
+          set({
+            myLife: 100,
+            oppLife: 100,
+            gameOver: null,
+            feedback: null,
+            myInput: '',
+            question: generateQuestion(),
+          })
+        })
+
         socket.on('opponent_attacked', ({ damage }: { damage: number }) => {
           const next = Math.max(0, get().myLife - damage)
           set({ myLife: next })
@@ -166,6 +199,22 @@ export const useGameStore = create<GameStore>()(
       session: null,
       setSession: (session) => set({ session }),
 
+      startPracticeGame: () => {
+        set({
+          session: {
+            roomId: `practice-${Date.now()}`,
+            opponentId: 'practice-bot',
+            opponentName: 'Pratique',
+          },
+          myLife: 100,
+          oppLife: 100,
+          question: generateQuestion(),
+          gameOver: null,
+          feedback: null,
+          myInput: '',
+        })
+      },
+
       question: generateQuestion(),
       myLife: 100,
       oppLife: 100,
@@ -197,14 +246,23 @@ export const useGameStore = create<GameStore>()(
             roomId: session?.roomId,
             userId,
             score: 1,
-            finished: false,
+            finished: next <= 0,
             damage: 10,
+            winnerId: next <= 0 ? userId : undefined,
           })
         } else {
           set({ feedback: 'wrong' })
           const next = Math.max(0, myLife - 10)
           set({ myLife: next })
           if (next <= 0) set({ gameOver: session?.opponentName ?? 'Adversaire' })
+          socket?.emit('submit_answer', {
+            roomId: session?.roomId,
+            userId,
+            score: 0,
+            finished: next <= 0,
+            selfDamage: 10,
+            winnerId: next <= 0 ? session?.opponentId : undefined,
+          })
         }
         setTimeout(() => {
           set({ myInput: '', feedback: null, question: generateQuestion() })
