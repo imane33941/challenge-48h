@@ -1,5 +1,4 @@
 ﻿import { useGameStore } from '@/store/gameStore'
-import './GamePage.css'
 
 const MAX_SCORE = 7
 
