@@ -15,7 +15,10 @@ export default function LoginPage() {
   const [username, setUsername] = useState('')
   const [nom, setNom] = useState('')
   const [prenom, setPrenom] = useState('')
-  const [status, setStatus] = useState<{ msg: string; type: 'success' | 'error' | '' }>({ msg: '', type: '' })
+  const [status, setStatus] = useState<{ msg: string; type: 'success' | 'error' | '' }>({
+    msg: '',
+    type: '',
+  })
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,12 +45,13 @@ export default function LoginPage() {
         localStorage.setItem('user_id', data.user.id)
         localStorage.setItem('user_name', data.user.email.split('@')[0])
 
-        setUser(data.user.id, data.user.email.split('@')[0])
+        setUser(data.user.id, data.user.email.split('@')[0], data.session.access_token)
         connectSocket()
+        setStatus({ msg: 'Connexion réussie !', type: 'success' })
+        setTimeout(() => navigate('/menu'), 800)
 
         setStatus({ msg: 'Connexion réussie !', type: 'success' })
-        setTimeout(() => navigate('/lobby'), 800)
-
+        setTimeout(() => navigate('/menu'), 800)
       } else {
         if (!username || !nom || !prenom) {
           setStatus({ msg: 'Tous les champs sont obligatoires.', type: 'error' })
@@ -83,13 +87,13 @@ export default function LoginPage() {
             placeholder="Email"
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             placeholder="Mot de passe"
             type="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           {!isLogin && (
@@ -97,17 +101,13 @@ export default function LoginPage() {
               <input
                 placeholder="Pseudo (visible par les autres)"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
               />
-              <input
-                placeholder="Nom"
-                value={nom}
-                onChange={e => setNom(e.target.value)}
-              />
+              <input placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} />
               <input
                 placeholder="Prénom"
                 value={prenom}
-                onChange={e => setPrenom(e.target.value)}
+                onChange={(e) => setPrenom(e.target.value)}
               />
             </div>
           )}
@@ -118,14 +118,18 @@ export default function LoginPage() {
         </form>
 
         {status.msg && (
-          <p className={`login__status login__status--${status.type}`}>
-            {status.msg}
-          </p>
+          <p className={`login__status login__status--${status.type}`}>{status.msg}</p>
         )}
 
         <p className="login__switch">
           {isLogin ? 'Pas de compte ?' : 'Déjà un compte ?'}{' '}
-          <button className="login__switch-btn" onClick={() => { setIsLogin(!isLogin); setStatus({ msg: '', type: '' }) }}>
+          <button
+            className="login__switch-btn"
+            onClick={() => {
+              setIsLogin(!isLogin)
+              setStatus({ msg: '', type: '' })
+            }}
+          >
             {isLogin ? "S'inscrire" : 'Se connecter'}
           </button>
         </p>

@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Manrope:wght@400;600;700&display=swap');
+
+:root {
+  --blue: #0f6fa6;
+  --rose: #c94a7c;
+  --ink: #1f2833;
+  --paper: rgba(255, 255, 255, 0.84);
+}
+
+.game-page {
+  min-height: 100vh;
+  font-family: 'Manrope', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(15, 111, 166, 0.24), transparent 35%),
+    radial-gradient(circle at 88% 78%, rgba(201, 74, 124, 0.24), transparent 34%),
+    linear-gradient(135deg, #eaf6ff, #fff1f6);
+  padding: 0 0 32px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(12, 125, 177, 0.15);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand h1 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.5rem;
+}
+
+.back-btn {
+  border: 0;
+  background: #173042;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.room-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pseudo-label,
+.room-code {
+  margin: 0;
+  font-weight: 700;
+}
+
+.friend-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef3f7;
+  color: #425b6d;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+.friend-status.online {
+  background: #e5f7ed;
+  color: #1f7a43;
+}
+
+.small-btn {
+  border: 0;
+  border-radius: 9px;
+  padding: 8px 12px;
+  background: #133c5b;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.small-btn.muted {
+  background: #8c98a1;
+}
+
+.code-input {
+  width: 90px;
+  text-transform: uppercase;
+  border: 1px solid #c1ced9;
+  border-radius: 9px;
+  padding: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.status {
+  margin: 10px 20px;
+  font-weight: 600;
+  min-height: 22px;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 18px;
+  padding: 0 20px;
+  margin-top: 8px;
+}
+
+.player-panel,
+.duel-panel {
+  background: var(--paper);
+  border-radius: 20px;
+  box-shadow: 0 18px 35px rgba(20, 62, 86, 0.17);
+  padding: 18px;
+}
+
+.player-panel {
+  border-top: 8px solid var(--blue);
+}
+.duel-panel {
+  border-top: 8px solid var(--rose);
+  text-align: center;
+}
+
+.hint {
+  margin: 0 0 8px;
+  color: #556a7a;
+}
+
+.question {
+  font-size: 2rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  margin: 6px 0 10px;
+}
+
+.display-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.25rem;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid #cad7df;
+  margin-bottom: 10px;
+  background: white;
+}
+
+.calculator {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.calculator button {
+  border: 0;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #edf3f8;
+  transition: transform 0.1s;
+}
+.calculator button:active {
+  transform: scale(0.93);
+}
+.btn-go {
+  background: #0f6fa6;
+  color: white;
+}
+.btn-clear {
+  background: #ffecec;
+  color: #c0392b;
+}
+
+.duel-title {
+  font-size: 1.5rem;
+  margin: 0 0 12px;
+}
+
+.battle {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.character {
+  font-size: 5rem;
+  line-height: 1;
+}
+.name {
+  margin: 6px 0;
+  font-weight: 700;
+}
+.life {
+  display: inline-block;
+  background: #ffe1ea;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.vs {
+  font-size: 2rem;
+}
+.rule {
+  color: #556a7a;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    flex-direction: column;
+  }
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes hit {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-15px) rotate(-10deg);
+  }
+  50% {
+    transform: translateX(10px) rotate(8deg);
+  }
+  75% {
+    transform: translateX(-8px) rotate(-5deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+@keyframes attack {
+  0% {
+    transform: scale(1) translateX(0);
+  }
+  50% {
+    transform: scale(1.3) translateX(20px);
+  }
+  100% {
+    transform: scale(1) translateX(0);
+  }
+}
+
+.character--hit {
+  animation: hit 0.4s ease;
+}
+.character--attack {
+  animation: attack 0.3s ease;
+}
