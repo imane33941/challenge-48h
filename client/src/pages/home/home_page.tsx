@@ -4,24 +4,23 @@ import { useGameStore } from "@/store/gameStore";
 import "./home_style.css";
 
 const LEVELS = [
-  { id: "facile",   label: "Primaire",  questions: 15 },
-  { id: "moyen",    label: "Collège",   questions: 20 },
-  { id: "difficile",label: "Lycée",     questions: 25 },
+  { id: "primaire",  label: "Primaire", questions: 15 },
+  { id: "college",   label: "Collège",  questions: 20 },
+  { id: "lycee",     label: "Lycée",    questions: 25 },
 ];
 
 function HomePage() {
   const navigate = useNavigate();
   const [playerName, setPlayerName]       = useState("Nom du joueur");
-  const [selectedLevelId, setSelectedLevelId] = useState(null);
+  const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
 
 
 
   /* ── Sélection niveau ── */
-  const handleLevelSelect = (levelId) => {
-    setSelectedLevelId(levelId);
-    navigate("/question");
-  };
-
+const handleLevelSelect = (levelId: string) => {
+  setSelectedLevelId(levelId);
+  navigate(`/question/${levelId}`);
+};
   /* ── Déconnexion ── */
   const handleLogout = () => {
     const onLogout = navigate("/login");

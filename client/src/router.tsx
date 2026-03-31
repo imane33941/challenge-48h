@@ -47,6 +47,6 @@ export const router = createBrowserRouter([
   { path: '/game', element: <ProtectedGame /> },
   { path: '/duel', element: <ProtectedDuel /> },
   { path: '/player', element: <ProtectedPlayer /> },
-  { path: '/question', element: <QuestionPage /> },
+  { path: '/question/:niveau', element: <QuestionPage /> },
   { path: '/home', element: <HomePage /> },
 ])
