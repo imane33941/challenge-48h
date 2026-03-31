@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/imane33941/challenge-48h/issues"
   },
-  "homepage": "https://github.com/imane33941/challenge-48h#readme"
+  "homepage": "https://github.com/imane33941/challenge-48h#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.101.0"
+  }
 }

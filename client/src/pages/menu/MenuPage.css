@@ -198,8 +198,7 @@ h1 {
   }
   .menu-page-react {
     min-height: 100dvh;
-    background: linear-gradient(135deg, #a8edea, #6ec6f5, #b8f0b8);
-    display: flex;
+    background: radial-gradient(#E6E6FA, #FFF1DB);
     flex-direction: column;
     padding: 1rem;
   }

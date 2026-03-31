@@ -5,6 +5,10 @@ import { useGameStore } from '@/store/gameStore'
 import './GameExpress.css'
 import { useInvite } from '@/hooks/useInvite'
 
+import flagImg from '/flags.png'
+import coincoinImg from '/Coincoin.png'
+import pinouImg from '/Pinou.png'
+
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 const ROOM_PREFIX = 'express-room-'
@@ -94,10 +98,8 @@ export default function GameExpress() {
     }
 
     if (next.scoreLeft >= MAX_SCORE || next.scoreRight >= MAX_SCORE) {
-      const winner = next.scoreLeft >= MAX_SCORE ? next.players.left : next.players.right
       const w = next.scoreLeft >= MAX_SCORE ? next.players.left : next.players.right
       setWinner(w)
-      // setStatus(`🏆 ${winner} a gagné !`)
       next.scoreLeft = 0
       next.scoreRight = 0
     }
@@ -122,7 +124,6 @@ export default function GameExpress() {
     const presence = channel.presenceState()
     const entries = Object.values(presence).flat() as any[]
 
-    // Cherche par pseudo — indépendant du side
     const myEntry = entries.find((e: any) => e.pseudo === pseudo)
     const oppEntry = entries.find((e: any) => e.pseudo !== pseudo)
 
@@ -265,7 +266,10 @@ export default function GameExpress() {
           </p>
           <div className="game-over-screen__stats">
             <div className="game-over-screen__stat">
-              <span>🧒 Mon score</span>
+              <span>
+                <img src={coincoinImg} alt="Moi" style={{ width: 24, height: 24, verticalAlign: 'middle', marginRight: 8 }} />
+                 Mon score
+              </span>
               <strong>
                 {myScore}/{MAX_SCORE}
               </strong>
@@ -390,7 +394,10 @@ export default function GameExpress() {
 
       <main className="express-body">
         <div className="calc-panel">
-          <div className="calc-panel__name">👤 {myDisplayName}</div>
+          <div className="calc-panel__name">
+            <img src={coincoinImg} alt="Avatar" style={{ width: 24, height: 24, verticalAlign: 'middle', marginRight: 8 }} />
+            {myDisplayName}
+          </div>
           <div className="calc-panel__question calc-panel__question--left">
             {gameState.question.text} = ?
           </div>
@@ -429,27 +436,45 @@ export default function GameExpress() {
 
         <div className="express-center">
           <div className="poles">
+            {/* Poteau Joueur Local (Moi) */}
             <div className="pole-wrapper">
               <div className="pole__top">
-                <span>🚩</span>
-                <span>🎁👕🎸</span>
+                <img src={flagImg} alt="Finish" style={{ width: 40 }} />
               </div>
-              <div className="pole__bar" style={{ height: POLE_HEIGHT }}>
-                <div className="pole__character" style={{ bottom: myBottom }}>
-                  🧒
+              <div className="pole__bar" style={{ height: POLE_HEIGHT, position: 'relative' }}>
+                <div 
+                  className="pole__character" 
+                  style={{ 
+                    bottom: myBottom, 
+                    position: 'absolute', 
+                    transition: 'bottom 0.3s ease-out',
+                    left: '50%',
+                    transform: 'translateX(-50%)'
+                  }}
+                >
+                  <img src={coincoinImg} alt="Coincoin" style={{ width: 40, height: 'auto' }} />
                 </div>
               </div>
               <div className="pole__name">{myDisplayName}</div>
             </div>
 
+            {/* Poteau Adversaire */}
             <div className="pole-wrapper">
               <div className="pole__top">
-                <span>🚩</span>
-                <span>🎁👕🎸</span>
+                <img src={flagImg} alt="Finish" style={{ width: 40 }} />
               </div>
-              <div className="pole__bar" style={{ height: POLE_HEIGHT }}>
-                <div className="pole__character" style={{ bottom: oppBottom }}>
-                  🧒
+              <div className="pole__bar" style={{ height: POLE_HEIGHT, position: 'relative' }}>
+                <div 
+                  className="pole__character" 
+                  style={{ 
+                    bottom: oppBottom, 
+                    position: 'absolute', 
+                    transition: 'bottom 0.3s ease-out',
+                    left: '50%',
+                    transform: 'translateX(-50%)'
+                  }}
+                >
+                  <img src={pinouImg} alt="Pinou" style={{ width: 40, height: 'auto' }} />
                 </div>
               </div>
               <div className="pole__name">{oppDisplayName}</div>
@@ -458,7 +483,10 @@ export default function GameExpress() {
         </div>
 
         <div className="calc-panel calc-panel--opp">
-          <div className="calc-panel__name">👤 {oppDisplayName}</div>
+          <div className="calc-panel__name">
+            <img src={pinouImg} alt="Avatar Opp" style={{ width: 24, height: 24, verticalAlign: 'middle', marginRight: 8 }} />
+            {oppDisplayName}
+          </div>
           <div className="calc-panel__question calc-panel__question--right">
             ⏳ {oppDisplayName} joue...
           </div>
@@ -479,9 +507,9 @@ export default function GameExpress() {
         </div>
       </main>
 
-      <p className="express-footer">
+      <footer className="express-footer">
         Grimpe le poteau en répondant juste ! ({MAX_SCORE} bonnes réponses pour gagner)
-      </p>
+      </footer>
     </div>
   )
 }
