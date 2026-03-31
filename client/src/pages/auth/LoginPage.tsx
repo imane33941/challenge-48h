@@ -33,7 +33,7 @@ export default function LoginPage() {
 
     try {
       if (isLogin) {
-        const res = await fetch(`${API_URL}/auth/signin`, {
+        const res = await fetch(`${API_URL}auth/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
