@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { SupabaseModule } from './supabase/supabase.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { ProgressModule } from './progress/progress.module';
@@ -15,6 +17,10 @@ import { AppService } from './app.service';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      exclude: ['/api/*', '/auth/*', '/question/*', '/users/*', '/exercises/*', '/progress/*'],
     }),
     SupabaseModule,
     AuthModule,

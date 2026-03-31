@@ -8,16 +8,10 @@ export class AppController {
 
   @Get()
   getRoot(@Res() res: Response) {
-    const frontendUrl = process.env.FRONTEND_URL;
-
-    // If a frontend URL is configured, route users to the login page first.
-    if (frontendUrl) {
-      return res.redirect(`${frontendUrl.replace(/\/$/, '')}/login`);
-    }
-
+    // Frontend is served as static files, no redirect needed
     return res.status(200).json({
       message: this.appService.getHello(),
-      hint: 'Set FRONTEND_URL to redirect to the login page.',
+      note: 'Frontend is served as static files. Visit / to access it.',
     });
   }
 }

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { getApiUrl } from "@/config/apiConfig";
 import "./question.css";
-
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '');
 
 type Question = {
   question: string;
@@ -62,7 +61,7 @@ export default function Question() {
     setLoadError("");
 
     try {
-      const apiRes = await fetch(`${API_URL}/question/${niveau}?score=${nextScore}`);
+      const apiRes = await fetch(`${getApiUrl()}/question/${niveau}?score=${nextScore}`);
       if (apiRes.ok) {
         const data = (await apiRes.json()) as Question;
         setQuestion(data);

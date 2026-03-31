@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGameStore } from '@/store/gameStore'
+import { getApiUrl } from '@/config/apiConfig'
 import './LoginPage.css'
-
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000' : '')
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -23,11 +22,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!API_URL) {
-      setStatus({ msg: 'Configuration manquante: VITE_API_URL', type: 'error' })
-      return
-    }
-
     if (!email || !password) {
       setStatus({ msg: 'Email et mot de passe sont obligatoires.', type: 'error' })
       return
@@ -37,14 +31,25 @@ export default function LoginPage() {
     setStatus({ msg: 'Chargement...', type: '' })
 
     try {
+      const apiUrl = getApiUrl()
+      console.log('🔗 API URL détectée:', apiUrl)
+
       if (isLogin) {
-        const res = await fetch(`${API_URL}/auth/signin`, {
+        const res = await fetch(`${apiUrl}/auth/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
         })
+        
+        console.log('📡 Réponse status:', res.status)
         const data = await res.json()
+        console.log('📦 Réponse data:', data)
+
         if (!res.ok) throw new Error(data.message || 'Erreur de connexion')
+
+        if (!data.session?.access_token || !data.user?.id) {
+          throw new Error('Réponse invalide du serveur: données manquantes')
+        }
 
         localStorage.setItem('access_token', data.session.access_token)
         localStorage.setItem('user_id', data.user.id)
@@ -54,9 +59,6 @@ export default function LoginPage() {
         connectSocket()
         setStatus({ msg: 'Connexion réussie !', type: 'success' })
         setTimeout(() => navigate('/menu'), 800)
-
-        setStatus({ msg: 'Connexion réussie !', type: 'success' })
-        setTimeout(() => navigate('/menu'), 800)
       } else {
         if (!username || !nom || !prenom) {
           setStatus({ msg: 'Tous les champs sont obligatoires.', type: 'error' })
@@ -64,7 +66,7 @@ export default function LoginPage() {
           return
         }
 
-        const res = await fetch(`${API_URL}/auth/signup`, {
+        const res = await fetch(`${apiUrl}/auth/signup`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
@@ -76,6 +78,7 @@ export default function LoginPage() {
         setIsLogin(true)
       }
     } catch (err: any) {
+      console.error('❌ Erreur:', err)
       setStatus({ msg: err.message || 'Une erreur est survenue.', type: 'error' })
     } finally {
       setLoading(false)

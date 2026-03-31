@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nestjs/serve-static": "^5.0.4",
     "@supabase/supabase-js": "^2.101.0",
     "path": "^0.12.7",
     "react": "^19.2.4",
