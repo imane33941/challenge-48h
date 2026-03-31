@@ -46,17 +46,19 @@ export default function GameExpress() {
   )
 
   const [invitePseudo, setInvitePseudo] = useState('')
-
   const channelRef = useRef<any>(null)
   const isHostRef = useRef(false)
   const sideRef = useRef<string | null>(null)
 
+  const [winner, setWinner] = useState<string | null>(null)
   const [mySide, setMySide] = useState<string | null>(null)
   const [roomCodeInput, setRoomCodeInput] = useState('')
   const [activeRoomCode, setActiveRoomCode] = useState('-')
   const [status, setStatus] = useState('Crée un code ou rejoins un ami pour lancer le duel.')
   const [displayValue, setDisplayValue] = useState('')
   const [friendOnline, setFriendOnline] = useState(false)
+  const [myDisplayName, setMyDisplayName] = useState(pseudo)
+  const [oppDisplayName, setOppDisplayName] = useState('...')
   const [gameState, setGameState] = useState({
     version: 1,
     scoreLeft: 0,
@@ -93,7 +95,9 @@ export default function GameExpress() {
 
     if (next.scoreLeft >= MAX_SCORE || next.scoreRight >= MAX_SCORE) {
       const winner = next.scoreLeft >= MAX_SCORE ? next.players.left : next.players.right
-      setStatus(`🏆 ${winner} a gagné !`)
+      const w = next.scoreLeft >= MAX_SCORE ? next.players.left : next.players.right
+      setWinner(w)
+      // setStatus(`🏆 ${winner} a gagné !`)
       next.scoreLeft = 0
       next.scoreRight = 0
     }
@@ -117,17 +121,29 @@ export default function GameExpress() {
   async function syncPresence(channel: any) {
     const presence = channel.presenceState()
     const entries = Object.values(presence).flat() as any[]
+
+    // Cherche par pseudo — indépendant du side
+    const myEntry = entries.find((e: any) => e.pseudo === pseudo)
+    const oppEntry = entries.find((e: any) => e.pseudo !== pseudo)
+
+    setFriendOnline(!!oppEntry)
+    setMyDisplayName(myEntry?.pseudo || pseudo)
+    setOppDisplayName(oppEntry?.pseudo || '...')
+
     const left = entries.find((e: any) => e.side === 'left')
     const right = entries.find((e: any) => e.side === 'right')
-    setFriendOnline(sideRef.current === 'left' ? !!right : !!left)
 
-    setGameState((current) => ({
-      ...current,
-      players: {
-        left: left?.pseudo || current.players.left,
-        right: right?.pseudo || current.players.right,
-      },
-    }))
+    setGameState((current) => {
+      const next = {
+        ...current,
+        players: {
+          left: left?.pseudo || current.players.left,
+          right: right?.pseudo || current.players.right,
+        },
+      }
+      if (isHostRef.current) broadcastState(next)
+      return next
+    })
 
     if (entries.length > 2) {
       setStatus('Salle pleine (2 joueurs max).')
@@ -145,6 +161,11 @@ export default function GameExpress() {
         broadcast: { self: true },
       },
     })
+
+    channelRef.current = channel
+    isHostRef.current = hostMode
+    sideRef.current = side
+    setMySide(side)
 
     channel
       .on('broadcast', { event: 'state' }, ({ payload }: any) => {
@@ -196,11 +217,6 @@ export default function GameExpress() {
         setStatus(`Connecté à la salle ${roomCode}. Duel prêt !`)
       }
     })
-
-    channelRef.current = channel
-    isHostRef.current = hostMode
-    sideRef.current = side
-    setMySide(side)
   }
 
   async function submitAnswer() {
@@ -233,6 +249,65 @@ export default function GameExpress() {
   const oppScore = mySide === 'left' ? gameState.scoreRight : gameState.scoreLeft
   const myBottom = (myScore / MAX_SCORE) * POLE_HEIGHT
   const oppBottom = (oppScore / MAX_SCORE) * POLE_HEIGHT
+
+  if (winner)
+    return (
+      <div className="express-page">
+        <div className="game-over-screen">
+          <div className="game-over-screen__emoji">{winner === pseudo ? '🏆' : '💔'}</div>
+          <h2 className="game-over-screen__title">
+            {winner === pseudo ? `Bravo ${pseudo} !` : `${winner} a gagné !`}
+          </h2>
+          <p className="game-over-screen__sub">
+            {winner === pseudo
+              ? 'Tu as grimpé en premier !'
+              : 'Meilleure chance la prochaine fois !'}
+          </p>
+          <div className="game-over-screen__stats">
+            <div className="game-over-screen__stat">
+              <span>🧒 Mon score</span>
+              <strong>
+                {myScore}/{MAX_SCORE}
+              </strong>
+            </div>
+            <div className="game-over-screen__stat">
+              <span>🆚 {oppDisplayName}</span>
+              <strong>
+                {oppScore}/{MAX_SCORE}
+              </strong>
+            </div>
+          </div>
+          <button
+            className="game-over-screen__btn"
+            onClick={() => {
+              setWinner(null)
+              setGameState((current) => ({
+                ...current,
+                scoreLeft: 0,
+                scoreRight: 0,
+                question: generateQuestion(),
+                version: (current.version || 0) + 1,
+              }))
+              if (isHostRef.current) {
+                const reset = {
+                  version: (gameState.version || 0) + 1,
+                  scoreLeft: 0,
+                  scoreRight: 0,
+                  question: generateQuestion(),
+                  players: gameState.players,
+                }
+                broadcastState(reset)
+              }
+            }}
+          >
+            🔄 Rejouer
+          </button>
+          <button className="game-over-screen__back" onClick={() => navigate('/menu')}>
+            ← Retour au menu
+          </button>
+        </div>
+      </div>
+    )
 
   return (
     <div className="express-page">
@@ -315,6 +390,7 @@ export default function GameExpress() {
 
       <main className="express-body">
         <div className="calc-panel">
+          <div className="calc-panel__name">👤 {myDisplayName}</div>
           <div className="calc-panel__question calc-panel__question--left">
             {gameState.question.text} = ?
           </div>
@@ -351,7 +427,6 @@ export default function GameExpress() {
           </div>
         </div>
 
-        {/* Centre — poteaux */}
         <div className="express-center">
           <div className="poles">
             <div className="pole-wrapper">
@@ -364,7 +439,7 @@ export default function GameExpress() {
                   🧒
                 </div>
               </div>
-              <div className="pole__name">{gameState.players.left}</div>
+              <div className="pole__name">{myDisplayName}</div>
             </div>
 
             <div className="pole-wrapper">
@@ -377,15 +452,15 @@ export default function GameExpress() {
                   🧒
                 </div>
               </div>
-              <div className="pole__name">{gameState.players.right}</div>
+              <div className="pole__name">{oppDisplayName}</div>
             </div>
           </div>
         </div>
 
-        {/* Panel droite — adversaire */}
         <div className="calc-panel calc-panel--opp">
+          <div className="calc-panel__name">👤 {oppDisplayName}</div>
           <div className="calc-panel__question calc-panel__question--right">
-            ⏳ {gameState.players.right} joue...
+            ⏳ {oppDisplayName} joue...
           </div>
           <div className="calc-panel__display calc-panel__display--placeholder">—</div>
           <div className="calc-panel__keys">
