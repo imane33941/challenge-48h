@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGameStore } from "@/store/gameStore";
 import "./home_style.css";
@@ -11,21 +11,20 @@ const LEVELS = [
 
 function HomePage() {
   const navigate = useNavigate();
-  const [playerName, setPlayerName]       = useState("Nom du joueur");
+  const userName = useGameStore((s) => s.userName);
+  const playerName = useMemo(() => userName || "Joueur", [userName]);
   const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
 
 
 
-  /* ── Sélection niveau ── */
-const handleLevelSelect = (levelId: string) => {
-  setSelectedLevelId(levelId);
-  navigate(`/question/${levelId}`);
-};
+  const handleLevelSelect = (levelId: string) => {
+    setSelectedLevelId(levelId);
+    navigate(`/question/${levelId}`);
+  };
+
   /* ── Déconnexion ── */
   const handleLogout = () => {
-    const onLogout = navigate("/login");
-    onLogout
-    // TODO : intégrer la navigation vers la page login
+    navigate("/menu");
   };
 
   return (
@@ -34,13 +33,8 @@ const handleLevelSelect = (levelId: string) => {
       {/* ── Header ── */}
       <header className="topBar">
         <div className="leftGroup">
-          <button type="button" className="homeButton" aria-label="Accueil" onClick={() => navigate('/menu')}>
-            <svg className="homeIcon" viewBox="0 0 24 24" fill="none"
-              xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M4 10.5L12 4L20 10.5V20H14V14H10V20H4V10.5Z"
-                stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                
-            </svg>
+          <button type="button" className="back-btn" onClick={() => navigate('/menu')}>
+            ← Menu
           </button>
 
           <div className="mascotWrap" aria-hidden="true">
@@ -62,7 +56,8 @@ const handleLevelSelect = (levelId: string) => {
 
       {/* ── Contenu ── */}
       <main className="content">
-        <h1 className="title">Quiz Culture Générale</h1>
+        <h1 className="title">Quiz Culture Generale</h1>
+        <p className="subtitle">Choisis ton niveau pour lancer la prochaine question.</p>
 
         <section className="levels" aria-label="Choix de la difficulté">
           {LEVELS.map((level) => {
@@ -75,6 +70,7 @@ const handleLevelSelect = (levelId: string) => {
                 onClick={() => handleLevelSelect(level.id)}
               >
                 <span className="levelTitle">{level.label}</span>
+                <span className="levelMeta">{level.questions} questions</span>
               </button>
             );
           })}

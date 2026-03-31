@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabase =
+  SUPABASE_URL && SUPABASE_ANON_KEY ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null
 
 interface Invitation {
   from: string
@@ -18,7 +18,7 @@ export function useInvite(pseudo: string, onAccepted: (roomCode: string) => void
   const [inviteSent, setInviteSent] = useState(false)
 
   useEffect(() => {
-    if (!pseudo) return
+    if (!pseudo || !supabase) return
 
     const channel = supabase.channel(`invite-${pseudo}`, {
       config: { broadcast: { self: false } },
@@ -46,6 +46,8 @@ export function useInvite(pseudo: string, onAccepted: (roomCode: string) => void
   }, [pseudo])
 
   async function sendInvite(toPseudo: string, roomCode: string, game: 'duel' | 'express') {
+    if (!supabase) return
+
     const channel = supabase.channel(`invite-${toPseudo}`, {
       config: { broadcast: { self: false } },
     })
@@ -60,7 +62,9 @@ export function useInvite(pseudo: string, onAccepted: (roomCode: string) => void
   }
 
   async function acceptInvite() {
+    if (!supabase) return
     if (!invitation) return
+
     const channel = supabase.channel(`invite-${invitation.from}`, {
       config: { broadcast: { self: false } },
     })
@@ -76,7 +80,9 @@ export function useInvite(pseudo: string, onAccepted: (roomCode: string) => void
   }
 
   async function declineInvite() {
+    if (!supabase) return
     if (!invitation) return
+
     const channel = supabase.channel(`invite-${invitation.from}`, {
       config: { broadcast: { self: false } },
     })
