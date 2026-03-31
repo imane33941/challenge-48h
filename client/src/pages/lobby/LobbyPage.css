@@ -41,11 +41,9 @@
   margin: 0;
 }
 
-.lobby__game-btn {
-  .lobby__search-row {
-    display: flex;
-    gap: 0.5rem;
-  }
+.lobby__search-row {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .lobby__section input {
@@ -92,7 +90,6 @@
 .lobby__btn:active {
   transform: scale(0.97);
 }
-
 .lobby__btn:disabled {
   opacity: 0.5;
   cursor: default;
@@ -165,6 +162,26 @@
   text-align: center;
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
+  animation: pop 0.3s ease;
+}
+
+.lobby__invitation p {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #1a2a4a;
+  margin: 0;
+}
+
+.lobby__invitation-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.lobby__game-btn {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 4px;
   padding: 1.25rem;
@@ -178,7 +195,6 @@
 .lobby__game-btn:active {
   transform: scale(0.97);
 }
-
 .lobby__game-btn--duel {
   background: linear-gradient(135deg, #1a2a6c, #0f6fa6);
   color: white;
@@ -187,7 +203,6 @@
   background: linear-gradient(135deg, #2d8a2d, #16a34a);
   color: white;
 }
-
 .lobby__game-emoji {
   font-size: 2rem;
 }
@@ -209,31 +224,26 @@
   font-size: 0.9rem;
   text-align: center;
   padding: 0.5rem;
-  .lobby__invitation-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
+}
 
-  @keyframes slide {
-    from {
-      transform: translateX(-20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+@keyframes slide {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
   }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
-  @keyframes pop {
-    from {
-      transform: scale(0.8);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
+@keyframes pop {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
