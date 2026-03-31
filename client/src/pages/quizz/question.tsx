@@ -1,49 +1,39 @@
-export default function QuestionPage() {
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+type Question = {
+  question: string;
+  reponses: string[];
+  bonne_reponse: number;
+};
+
+export default function Question() {
+  const [question, setQuestion] = useState<Question | null>(null); // changer ici
+  const [score, setScore] = useState(0);
+  const { niveau } = useParams<{ niveau: string }>();
+  async function nouvelleQuestion() {
+    const res = await fetch(`http://localhost:8000/question/${niveau}?score=${score}`);
+    const data = await res.json();
+    setQuestion(data);
+  }
+
+  useEffect(() => {
+    nouvelleQuestion();
+  }, []);
+
+  if (!question) return <p>Chargement...</p>;
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="bg-white shadow-lg rounded-2xl p-8 max-w-xl w-full">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Page Question
-        </h1>
-
-        <p className="text-gray-600 mb-6">
-          Bienvenue sur la page des questions. Tu peux poser une question
-          ou consulter les réponses disponibles.
-        </p>
-
-        <div className="space-y-4">
-          <div className="border rounded-xl p-4 hover:shadow-md transition">
-            <h2 className="text-lg font-semibold text-gray-700">
-              Exemple de question 1
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Comment fonctionne React Router ?
-            </p>
-          </div>
-
-          <div className="border rounded-xl p-4 hover:shadow-md transition">
-            <h2 className="text-lg font-semibold text-gray-700">
-              Exemple de question 2
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Comment utiliser les props en React ?
-            </p>
-          </div>
-
-          <div className="border rounded-xl p-4 hover:shadow-md transition">
-            <h2 className="text-lg font-semibold text-gray-700">
-              Exemple de question 3
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Comment connecter une API avec fetch ?
-            </p>
-          </div>
-        </div>
-
-        <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition">
-          Poser une nouvelle question
+    <div>
+      <p>{question.question}</p>
+      {question.reponses.map((rep, i) => (
+        <button key={i} onClick={() => {
+          if (i === question.bonne_reponse) setScore(score + 1);
+          nouvelleQuestion();
+        }}>
+          {rep}
         </button>
-      </div>
+      ))}
     </div>
   );
 }
